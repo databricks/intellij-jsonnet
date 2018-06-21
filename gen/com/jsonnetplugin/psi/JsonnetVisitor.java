@@ -15,6 +15,10 @@ public class JsonnetVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAssertsuffix(@NotNull JsonnetAssertsuffix o) {
+    visitPsiElement(o);
+  }
+
   public void visitBinaryop(@NotNull JsonnetBinaryop o) {
     visitPsiElement(o);
   }

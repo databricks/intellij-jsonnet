@@ -10,6 +10,7 @@ public interface JsonnetTypes {
 
   IElementType ARGS = new JsonnetElementType("ARGS");
   IElementType ASSERT = new JsonnetElementType("ASSERT");
+  IElementType ASSERTSUFFIX = new JsonnetElementType("ASSERTSUFFIX");
   IElementType BINARYOP = new JsonnetElementType("BINARYOP");
   IElementType BIND = new JsonnetElementType("BIND");
   IElementType COMPSPEC = new JsonnetElementType("COMPSPEC");
@@ -36,6 +37,9 @@ public interface JsonnetTypes {
       }
       else if (type == ASSERT) {
         return new JsonnetAssertImpl(node);
+      }
+      else if (type == ASSERTSUFFIX) {
+        return new JsonnetAssertsuffixImpl(node);
       }
       else if (type == BINARYOP) {
         return new JsonnetBinaryopImpl(node);

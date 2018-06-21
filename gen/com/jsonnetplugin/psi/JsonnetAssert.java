@@ -9,6 +9,9 @@ import null.null;
 public interface JsonnetAssert extends PsiElement {
 
   @NotNull
-  List<null> getExprList();
+  JsonnetAssertsuffix getAssertsuffix();
+
+  @NotNull
+  null getExpr();
 
 }

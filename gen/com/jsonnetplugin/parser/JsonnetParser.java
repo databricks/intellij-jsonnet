@@ -29,6 +29,9 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     else if (t == ASSERT) {
       r = assert_$(b, 0);
     }
+    else if (t == ASSERTSUFFIX) {
+      r = assertsuffix(b, 0);
+    }
     else if (t == BINARYOP) {
       r = binaryop(b, 0);
     }
@@ -223,28 +226,31 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "assert" expr ( ":" expr )?
+  // "assert" expr assertsuffix
   public static boolean assert_$(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assert_$")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ASSERT, "<assert $>");
     r = consumeToken(b, "assert");
     r = r && expr(b, l + 1);
-    r = r && assert_2(b, l + 1);
+    r = r && assertsuffix(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
+  /* ********************************************************** */
   // ( ":" expr )?
-  private static boolean assert_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assert_2")) return false;
-    assert_2_0(b, l + 1);
+  public static boolean assertsuffix(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assertsuffix")) return false;
+    Marker m = enter_section_(b, l, _NONE_, ASSERTSUFFIX, "<assertsuffix>");
+    assertsuffix_0(b, l + 1);
+    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
   // ":" expr
-  private static boolean assert_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assert_2_0")) return false;
+  private static boolean assertsuffix_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assertsuffix_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ":");
