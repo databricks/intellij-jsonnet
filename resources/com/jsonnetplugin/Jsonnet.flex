@@ -42,6 +42,27 @@ IDENTIFIER=[[:jletterdigit:]~!()*\-."/"@\^<>=]+
   "null"                      { return NULL; }
   "import"                    { return IMPORT; }
   "local"                     { return LOCAL; }
+  "*"                         { return ASTERISK; }
+  "/"                         { return SLASH; }
+  "%"                         { return PERCENT; }
+  "+"                         { return PLUS; }
+  "-"                         { return MINUS; }
+  "<<"                        { return DOUBLE_LESS; }
+  ">>"                        { return DOUBLE_GREATER; }
+  "<"                         { return LESS_THAN; }
+  "<="                        { return LESS_EQUAL; }
+  ">"                         { return GREATER_THAN; }
+  ">="                        { return GREATER_EQUAL; }
+  "=="                        { return DOUBLE_EQUAL; }
+  "!="                        { return NOT_EQUAL; }
+  "in"                        { return IN; }
+  "&"                         { return AND; }
+  "^"                         { return CARAT; }
+  "|"                         { return BAR; }
+  "&&"                        { return DOUBLE_AND; }
+  "||"                        { return DOUBLE_BAR; }
+  "!"                         { return EXCLAMATION; }
+  "~"                         { return TILDE; }
 
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }

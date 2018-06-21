@@ -46,6 +46,28 @@
     IDENTIFIER="regexp:[[:jletterdigit:]~!()*\-./@\^<>=]+"
     IMPORT='import'
     LOCAL='local'
+    ASTERISK="*"
+    SLASH="/"
+    PERCENT="%"
+    PLUS="+"
+    MINUS="-"
+    DOUBLE_LESS="<<"
+    DOUBLE_GREATER=">>"
+    LESS_THAN="<"
+    LESS_EQUAL="<="
+    GREATER_THAN=">"
+    GREATER_EQUAL=">="
+    DOUBLE_EQUAL="=="
+    NOT_EQUAL="!="
+    IN="in"
+    AND="&"
+    CARAT="^"
+    BAR="|"
+    DOUBLE_AND="&&"
+    DOUBLE_BAR="||"
+    EXCLAMATION="!"
+    TILDE="~"
+    // TODO: Do we need "="
   ]
 
 }
