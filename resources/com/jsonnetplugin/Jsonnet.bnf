@@ -13,8 +13,55 @@
   tokenTypeClass="com.jsonnetplugin.psi.JsonnetTokenType"
 }
 
-jsonnetFile ::= item_*
+//jsonnetFile ::= item_*
+//
+//private item_ ::= (property|COMMENT|CRLF)
+//
+//property ::= (KEY? SEPARATOR VALUE?) | KEY
 
-private item_ ::= (property|COMMENT|CRLF)
+expr ::=	"null" | "true" | "false" | "self" | "$" | DOUBLE_QUOTED_STRING | NUMBER
+|	"{" objinside "}"
+|	"[" (expr ("," expr)* ","?)? "]"
+|	"[" expr ","? forspec compspec "]"
+|	expr "." IDENTIFIER
+|	expr "[" expr ( ":" ( expr ( ":" ( expr )? )? )? )? "]"
+|	expr "[" ":" ( expr ( ":" ( expr )? )? )? "]"
+|	"super" "." IDENTIFIER
+|	"super" "[" expr "]"
+|	expr "(" ( args )? ")"
+|	IDENTIFIER
+|	"local" bind ( "," bind )* ";" expr
+|	"if" expr "then" expr ( "else" expr )?
+|	expr binaryop expr
+|	unaryop expr
+|	expr "{" objinside "}"
+|	"function" "(" ( params )? ")" expr
+|	assert ";" expr
+|	"import" DOUBLE_QUOTED_STRING
+|	"importstr" DOUBLE_QUOTED_STRING
+|	"error" expr
+|	expr "in" "super"
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY
+objinside	::=	member ( "," member )* ( "," )?
+|	( objlocal "," )* "[" expr "]" ":" expr ( ( "," objlocal )* ( "," )? )? forspec compspec
+
+member	::=	objlocal | assert | field
+
+field ::=	fieldname ( "+" )? h expr
+|	fieldname "(" ( params )* ")" h expr
+
+h ::=	":" | "::" | ":::"
+objlocal	::=	"local" bind
+compspec ::=	( forspec | ifspec )*
+forspec	::=	"for" IDENTIFIER "in" expr
+ifspec	::=	"if" expr
+fieldname	::=	IDENTIFIER | DOUBLE_QUOTED_STRING | "[" expr "]"
+assert	::=	"assert" expr ( ":" expr )?
+bind ::=	IDENTIFIER "=" expr
+|	IDENTIFIER "(" ( params )? ")" "=" expr
+args	::=	expr ( "," expr )* ( "," IDENTIFIER "=" expr )* ( "," )?
+|	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )* ( "," )?
+params	::=	IDENTIFIER ( "," IDENTIFIER )* ( "," IDENTIFIER "=" expr )* ( "," )?
+|	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )? ( "," )?
+binaryop	::=	"*" | "/" | "%" | "+" | "-" | "<<" | ">>" | "<" | "<=" | ">" | ">=" | "==" | "!=" | "in" | "&" | "^" | "|" | "&&" | "||"
+unaryop	::=	"-" | "+" | "!" | "~"

@@ -25,6 +25,7 @@
   -->
   <extensions defaultExtensionNs="com.intellij">
     <lang.parserDefinition language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetParserDefinition"/>
+    <lang.syntaxHighlighterFactory language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetSyntaxHighlighterFactory"/>
     <fileTypeFactory implementation="com.jsonnetplugin.JsonnetFileTypeFactory"/>
   </extensions>
 
