@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsonnetArgs extends PsiElement {
-
-  @NotNull
-  List<JsonnetExpr> getExprList();
+public interface JsonnetNull extends PsiElement {
 
 }

@@ -10,7 +10,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.jsonnetplugin.psi.JsonnetTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.jsonnetplugin.psi.*;
-import null.null;
 
 public class JsonnetFieldnameImpl extends ASTWrapperPsiElement implements JsonnetFieldname {
 
@@ -29,8 +28,8 @@ public class JsonnetFieldnameImpl extends ASTWrapperPsiElement implements Jsonne
 
   @Override
   @Nullable
-  public null getExpr() {
-    return findChildByClass(null.class);
+  public JsonnetExpr getExpr() {
+    return findChildByClass(JsonnetExpr.class);
   }
 
 }

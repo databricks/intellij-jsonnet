@@ -4,11 +4,10 @@ package com.jsonnetplugin.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import null.null;
 
 public interface JsonnetForspec extends PsiElement {
 
   @NotNull
-  null getExpr();
+  JsonnetExpr getExpr();
 
 }

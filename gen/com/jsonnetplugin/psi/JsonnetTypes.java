@@ -10,19 +10,24 @@ public interface JsonnetTypes {
 
   IElementType ARGS = new JsonnetElementType("ARGS");
   IElementType ASSERT = new JsonnetElementType("ASSERT");
-  IElementType ASSERTSUFFIX = new JsonnetElementType("ASSERTSUFFIX");
   IElementType BINARYOP = new JsonnetElementType("BINARYOP");
   IElementType BIND = new JsonnetElementType("BIND");
   IElementType COMPSPEC = new JsonnetElementType("COMPSPEC");
+  IElementType DOLLAR = new JsonnetElementType("DOLLAR");
+  IElementType EXPR = new JsonnetElementType("EXPR");
+  IElementType FALSE = new JsonnetElementType("FALSE");
   IElementType FIELD = new JsonnetElementType("FIELD");
   IElementType FIELDNAME = new JsonnetElementType("FIELDNAME");
   IElementType FORSPEC = new JsonnetElementType("FORSPEC");
   IElementType H = new JsonnetElementType("H");
   IElementType IFSPEC = new JsonnetElementType("IFSPEC");
   IElementType MEMBER = new JsonnetElementType("MEMBER");
+  IElementType NULL = new JsonnetElementType("NULL");
   IElementType OBJINSIDE = new JsonnetElementType("OBJINSIDE");
   IElementType OBJLOCAL = new JsonnetElementType("OBJLOCAL");
   IElementType PARAMS = new JsonnetElementType("PARAMS");
+  IElementType SELF = new JsonnetElementType("SELF");
+  IElementType TRUE = new JsonnetElementType("TRUE");
   IElementType UNARYOP = new JsonnetElementType("UNARYOP");
 
   IElementType DOUBLE_QUOTED_STRING = new JsonnetTokenType("DOUBLE_QUOTED_STRING");
@@ -38,9 +43,6 @@ public interface JsonnetTypes {
       else if (type == ASSERT) {
         return new JsonnetAssertImpl(node);
       }
-      else if (type == ASSERTSUFFIX) {
-        return new JsonnetAssertsuffixImpl(node);
-      }
       else if (type == BINARYOP) {
         return new JsonnetBinaryopImpl(node);
       }
@@ -49,6 +51,15 @@ public interface JsonnetTypes {
       }
       else if (type == COMPSPEC) {
         return new JsonnetCompspecImpl(node);
+      }
+      else if (type == DOLLAR) {
+        return new JsonnetDollarImpl(node);
+      }
+      else if (type == EXPR) {
+        return new JsonnetExprImpl(node);
+      }
+      else if (type == FALSE) {
+        return new JsonnetFalseImpl(node);
       }
       else if (type == FIELD) {
         return new JsonnetFieldImpl(node);
@@ -68,6 +79,9 @@ public interface JsonnetTypes {
       else if (type == MEMBER) {
         return new JsonnetMemberImpl(node);
       }
+      else if (type == NULL) {
+        return new JsonnetNullImpl(node);
+      }
       else if (type == OBJINSIDE) {
         return new JsonnetObjinsideImpl(node);
       }
@@ -76,6 +90,12 @@ public interface JsonnetTypes {
       }
       else if (type == PARAMS) {
         return new JsonnetParamsImpl(node);
+      }
+      else if (type == SELF) {
+        return new JsonnetSelfImpl(node);
+      }
+      else if (type == TRUE) {
+        return new JsonnetTrueImpl(node);
       }
       else if (type == UNARYOP) {
         return new JsonnetUnaryopImpl(node);

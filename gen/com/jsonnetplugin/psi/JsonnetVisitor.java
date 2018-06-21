@@ -15,10 +15,6 @@ public class JsonnetVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAssertsuffix(@NotNull JsonnetAssertsuffix o) {
-    visitPsiElement(o);
-  }
-
   public void visitBinaryop(@NotNull JsonnetBinaryop o) {
     visitPsiElement(o);
   }
@@ -28,6 +24,18 @@ public class JsonnetVisitor extends PsiElementVisitor {
   }
 
   public void visitCompspec(@NotNull JsonnetCompspec o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDollar(@NotNull JsonnetDollar o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExpr(@NotNull JsonnetExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFalse(@NotNull JsonnetFalse o) {
     visitPsiElement(o);
   }
 
@@ -55,6 +63,10 @@ public class JsonnetVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitNull(@NotNull JsonnetNull o) {
+    visitPsiElement(o);
+  }
+
   public void visitObjinside(@NotNull JsonnetObjinside o) {
     visitPsiElement(o);
   }
@@ -64,6 +76,14 @@ public class JsonnetVisitor extends PsiElementVisitor {
   }
 
   public void visitParams(@NotNull JsonnetParams o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSelf(@NotNull JsonnetSelf o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTrue(@NotNull JsonnetTrue o) {
     visitPsiElement(o);
   }
 

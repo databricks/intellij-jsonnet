@@ -10,7 +10,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.jsonnetplugin.psi.JsonnetTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.jsonnetplugin.psi.*;
-import null.null;
 
 public class JsonnetParamsImpl extends ASTWrapperPsiElement implements JsonnetParams {
 
@@ -29,8 +28,8 @@ public class JsonnetParamsImpl extends ASTWrapperPsiElement implements JsonnetPa
 
   @Override
   @NotNull
-  public List<null> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, null.class);
+  public List<JsonnetExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsonnetExpr.class);
   }
 
 }

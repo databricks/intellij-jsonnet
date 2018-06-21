@@ -11,25 +11,19 @@ import static com.jsonnetplugin.psi.JsonnetTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.jsonnetplugin.psi.*;
 
-public class JsonnetArgsImpl extends ASTWrapperPsiElement implements JsonnetArgs {
+public class JsonnetNullImpl extends ASTWrapperPsiElement implements JsonnetNull {
 
-  public JsonnetArgsImpl(ASTNode node) {
+  public JsonnetNullImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsonnetVisitor visitor) {
-    visitor.visitArgs(this);
+    visitor.visitNull(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JsonnetVisitor) accept((JsonnetVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<JsonnetExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsonnetExpr.class);
   }
 
 }

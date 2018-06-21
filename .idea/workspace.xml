@@ -2,12 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49864a5d-6353-4721-9397-596ba462c60b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertImpl.java" afterPath="" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetDollarImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetExprImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetNullImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetSelfImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetTrueImpl.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetDollar.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetExpr.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetNull.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetSelf.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTrue.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetArgsImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetArgsImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetBindImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetBindImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFieldImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFieldImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFieldnameImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFieldnameImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetForspecImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetForspecImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetIfspecImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetIfspecImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetObjinsideImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetObjinsideImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetParamsImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetParamsImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetPropertyImpl.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFalseImpl.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/JsonnetLexer.java" afterPath="" />
       <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/parser/JsonnetParser.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/parser/JsonnetParser.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetArgs.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetArgs.java" />
       <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetAssert.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetAssert.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetBind.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetBind.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetField.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetField.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetFieldname.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetFieldname.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetForspec.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetForspec.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetIfspec.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetIfspec.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetObjinside.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetObjinside.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetParams.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetParams.java" />
+      <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetProperty.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetFalse.java" />
       <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTypes.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTypes.java" />
       <change beforePath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetVisitor.java" afterPath="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetVisitor.java" />
+      <change beforePath="$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf" afterPath="$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +49,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JsonnetParserDefinition.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Jsonnet.bnf" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#437#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JsonnetParserDefinition.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetParserDefinition.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
+            <state relative-caret-position="195">
+              <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#724#725#0" expanded="true" />
@@ -47,103 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Jsonnet.flex" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.flex">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="28" lean-forward="false" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
-              <folding>
-                <marker date="1529610982000" expanded="true" signature="35:185" ph="..." />
-                <marker date="1529610982000" expanded="true" signature="663:1504" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonnetTypes.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTypes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding>
-                <marker date="1529612851000" expanded="true" signature="1796:3003" ph="{...}" />
-                <marker date="1529612851000" expanded="true" signature="1796:3007" ph="{...}" />
-                <marker date="1529612851000" expanded="true" signature="2913:3003" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonnetLexer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/JsonnetLexer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="809">
-              <caret line="692" column="14" lean-forward="false" selection-start-line="692" selection-start-column="14" selection-end-line="692" selection-end-column="14" />
-              <folding>
-                <element signature="e#16103#16104#0" expanded="true" />
-                <element signature="e#16131#16132#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PsiParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/idea/platform/core-api/src/com/intellij/lang/PsiParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="28" column="17" lean-forward="false" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Lexer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/idea/platform/core-api/src/com/intellij/lexer/Lexer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Jsonnet.bnf" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="55" column="28" lean-forward="false" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#437#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="4" lean-forward="false" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="JsonnetAssertImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="25" column="27" lean-forward="true" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JsonnetAssertsuffixImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertsuffixImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+            <state relative-caret-position="75">
+              <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -170,9 +120,7 @@
       <find>{</find>
       <find>JsonElementType</find>
       <find>JsonTokenType</find>
-      <find>args</find>
       <find>field</find>
-      <find>null</find>
       <find>JsonnetLexer</find>
       <find>JsonnetLexerAdapter</find>
       <find>ge</find>
@@ -180,6 +128,10 @@
       <find>JsonnetParserDefinition</find>
       <find>&quot;</find>
       <find>assert</find>
+      <find>args</find>
+      <find>getnu</find>
+      <find>null</find>
+      <find>mynuull</find>
     </findStrings>
     <replaceStrings>
       <replace>jsonnetplugin</replace>
@@ -206,7 +158,6 @@
         <option value="$PROJECT_DIR$/src/com/jsonnetplugin/psi/JsonnetElementType.java" />
         <option value="$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetLexerAdapter.java" />
         <option value="$PROJECT_DIR$/src/com/jsonnetplugin/psi/JsonnetFile.java" />
-        <option value="$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetParserDefinition.java" />
         <option value="$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetSyntaxHighlighter.java" />
         <option value="$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetSyntaxHighlighterFactory.java" />
         <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
@@ -214,8 +165,9 @@
         <option value="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTypes.java" />
         <option value="$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetBind.java" />
         <option value="$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertImpl.java" />
-        <option value="$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf" />
+        <option value="$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetParserDefinition.java" />
       </list>
     </option>
   </component>
@@ -283,7 +235,41 @@
               <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
               <item name="gen" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="impl" type="462c0819:PsiDirectoryNode" />
+              <item name="jsonnetplugin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
+              <item name="gen" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="jsonnetplugin" type="462c0819:PsiDirectoryNode" />
+              <item name="parser" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
+              <item name="gen" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="jsonnetplugin" type="462c0819:PsiDirectoryNode" />
+              <item name="psi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
+              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="production" type="462c0819:PsiDirectoryNode" />
+              <item name="intellij-jsonnet" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="intellij-jsonnet" type="b2602c69:ProjectViewProjectNode" />
@@ -457,12 +443,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1529605739541</updated>
-      <workItem from="1529605751040" duration="7025000" />
+      <workItem from="1529605751040" duration="7629000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7025000" />
+    <option name="totallyTimeSpent" value="7629000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="720" height="873" extended-state="0" />
@@ -505,77 +491,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/idea/json/gen/com/intellij/json/psi/impl/JsonNumberLiteralImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding>
-            <element signature="e#534#535#0" expanded="false" />
-            <element signature="e#555#556#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jsonnetplugin/psi/JsonnetElementType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#274#275#0" expanded="false" />
-            <element signature="e#332#333#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetElementTypes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="32" lean-forward="true" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetCompspecImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetHImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetArgs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetBind.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetField.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetFieldname.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -604,9 +519,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="39" lean-forward="false" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -646,9 +559,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -847,8 +758,8 @@
         <state relative-caret-position="289">
           <caret line="28" column="5" lean-forward="false" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
           <folding>
-            <element signature="e#2046#2047#0" expanded="true" />
-            <element signature="e#2083#2084#0" expanded="true" />
+            <element signature="e#2046#2047#0" expanded="false" />
+            <element signature="e#2083#2084#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -857,22 +768,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="809">
           <caret line="692" column="14" lean-forward="false" selection-start-line="692" selection-start-column="14" selection-end-line="692" selection-end-column="14" />
-          <folding>
-            <element signature="e#16103#16104#0" expanded="true" />
-            <element signature="e#16131#16132#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetTypes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <marker date="1529612851000" expanded="true" signature="1796:3003" ph="{...}" />
-            <marker date="1529612851000" expanded="true" signature="1796:3007" ph="{...}" />
-            <marker date="1529612851000" expanded="true" signature="2913:3003" ph="{...}" />
-          </folding>
+        <state relative-caret-position="345">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -881,32 +785,6 @@
         <state relative-caret-position="15">
           <caret line="26" column="22" lean-forward="false" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetParserDefinition.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#724#725#0" expanded="true" />
-            <element signature="e#772#773#0" expanded="true" />
-            <element signature="e#830#831#0" expanded="true" />
-            <element signature="e#865#866#0" expanded="true" />
-            <element signature="e#920#921#0" expanded="true" />
-            <element signature="e#951#952#0" expanded="true" />
-            <element signature="e#1014#1015#0" expanded="true" />
-            <element signature="e#1051#1052#0" expanded="true" />
-            <element signature="e#1124#1125#0" expanded="true" />
-            <element signature="e#1166#1167#0" expanded="true" />
-            <element signature="e#1229#1230#0" expanded="true" />
-            <element signature="e#1256#1257#0" expanded="true" />
-            <element signature="e#1320#1321#0" expanded="true" />
-            <element signature="e#1372#1373#0" expanded="true" />
-            <element signature="e#1575#1576#0" expanded="true" />
-            <element signature="e#1638#1639#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -929,37 +807,127 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetFalse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetDollar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetExprImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetplugin/psi/JsonnetExpr.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="48" column="11" lean-forward="false" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetTrueImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetSelfImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetFalseImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertsuffixImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="6" lean-forward="true" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        <state relative-caret-position="30">
+          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetCompspecImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gen/com/jsonnetlugin/psi/impl/JsonnetAssertImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="25" column="27" lean-forward="true" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+        <state relative-caret-position="75">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/com/jsonnetplugin/Jsonnet.bnf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="55" column="28" lean-forward="false" selection-start-line="55" selection-start-column="18" selection-end-line="55" selection-end-column="28" />
+        <state relative-caret-position="364">
+          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
           <folding>
             <element signature="e#0#437#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/com/jsonnetplugin/JsonnetParserDefinition.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="4" lean-forward="false" selection-start-line="0" selection-start-column="4" selection-end-line="0" selection-end-column="4" />
-          <folding />
+        <state relative-caret-position="195">
+          <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#724#725#0" expanded="true" />
+            <element signature="e#772#773#0" expanded="true" />
+            <element signature="e#830#831#0" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+            <element signature="e#920#921#0" expanded="true" />
+            <element signature="e#951#952#0" expanded="true" />
+            <element signature="e#1014#1015#0" expanded="true" />
+            <element signature="e#1051#1052#0" expanded="true" />
+            <element signature="e#1124#1125#0" expanded="true" />
+            <element signature="e#1166#1167#0" expanded="true" />
+            <element signature="e#1229#1230#0" expanded="true" />
+            <element signature="e#1256#1257#0" expanded="true" />
+            <element signature="e#1320#1321#0" expanded="true" />
+            <element signature="e#1372#1373#0" expanded="true" />
+            <element signature="e#1575#1576#0" expanded="true" />
+            <element signature="e#1638#1639#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

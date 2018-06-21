@@ -19,7 +19,14 @@
 //
 //property ::= (KEY? SEPARATOR VALUE?) | KEY
 
-expr ::=	"null" | "true" | "false" | "self" | "$" | DOUBLE_QUOTED_STRING | NUMBER
+dummy ::= "lolz"
+
+true ::= "true"
+false ::= "false"
+self ::= "self"
+null ::= "null"
+dollar ::= "$"
+expr ::=	null | true | false | self | dollar | DOUBLE_QUOTED_STRING | NUMBER
 |	"{" objinside "}"
 |	"[" (expr ("," expr)* ","?)? "]"
 |	"[" expr ","? forspec compspec "]"

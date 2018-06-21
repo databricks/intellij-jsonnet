@@ -29,9 +29,6 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     else if (t == ASSERT) {
       r = assert_$(b, 0);
     }
-    else if (t == ASSERTSUFFIX) {
-      r = assertsuffix(b, 0);
-    }
     else if (t == BINARYOP) {
       r = binaryop(b, 0);
     }
@@ -40,6 +37,15 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     }
     else if (t == COMPSPEC) {
       r = compspec(b, 0);
+    }
+    else if (t == DOLLAR) {
+      r = dollar(b, 0);
+    }
+    else if (t == EXPR) {
+      r = expr(b, 0);
+    }
+    else if (t == FALSE) {
+      r = false_$(b, 0);
     }
     else if (t == FIELD) {
       r = field(b, 0);
@@ -59,6 +65,9 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     else if (t == MEMBER) {
       r = member(b, 0);
     }
+    else if (t == NULL) {
+      r = null_$(b, 0);
+    }
     else if (t == OBJINSIDE) {
       r = objinside(b, 0);
     }
@@ -67,6 +76,12 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     }
     else if (t == PARAMS) {
       r = params(b, 0);
+    }
+    else if (t == SELF) {
+      r = self(b, 0);
+    }
+    else if (t == TRUE) {
+      r = true_$(b, 0);
     }
     else if (t == UNARYOP) {
       r = unaryop(b, 0);
@@ -78,7 +93,7 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   }
 
   protected boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return expr(b, l + 1);
+    return dummy(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -226,31 +241,28 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "assert" expr assertsuffix
+  // "assert" expr ( ":" expr )?
   public static boolean assert_$(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assert_$")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, ASSERT, "<assert $>");
     r = consumeToken(b, "assert");
     r = r && expr(b, l + 1);
-    r = r && assertsuffix(b, l + 1);
+    r = r && assert_2(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  /* ********************************************************** */
   // ( ":" expr )?
-  public static boolean assertsuffix(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assertsuffix")) return false;
-    Marker m = enter_section_(b, l, _NONE_, ASSERTSUFFIX, "<assertsuffix>");
-    assertsuffix_0(b, l + 1);
-    exit_section_(b, l, m, true, false, null);
+  private static boolean assert_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assert_2")) return false;
+    assert_2_0(b, l + 1);
     return true;
   }
 
   // ":" expr
-  private static boolean assertsuffix_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "assertsuffix_0")) return false;
+  private static boolean assert_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "assert_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ":");
@@ -370,7 +382,24 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "null" | "true" | "false" | "self" | "$" | DOUBLE_QUOTED_STRING | NUMBER
+  // "$"
+  public static boolean dollar(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dollar")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, DOLLAR, "<dollar>");
+    r = consumeToken(b, "$");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "lolz"
+  static boolean dummy(PsiBuilder b, int l) {
+    return consumeToken(b, "lolz");
+  }
+
+  /* ********************************************************** */
+  // null | true | false | self | dollar | DOUBLE_QUOTED_STRING | NUMBER
   // |	"{" objinside "}"
   // |	"[" (expr ("," expr)* ","?)? "]"
   // |	"[" expr ","? forspec compspec "]"
@@ -392,15 +421,15 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   // |	"importstr" DOUBLE_QUOTED_STRING
   // |	"error" expr
   // |	expr "in" "super"
-  static boolean expr(PsiBuilder b, int l) {
+  public static boolean expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expr")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "null");
-    if (!r) r = consumeToken(b, "true");
-    if (!r) r = consumeToken(b, "false");
-    if (!r) r = consumeToken(b, "self");
-    if (!r) r = consumeToken(b, "$");
+    Marker m = enter_section_(b, l, _NONE_, EXPR, "<expr>");
+    r = null_$(b, l + 1);
+    if (!r) r = true_$(b, l + 1);
+    if (!r) r = false_$(b, l + 1);
+    if (!r) r = self(b, l + 1);
+    if (!r) r = dollar(b, l + 1);
     if (!r) r = consumeToken(b, DOUBLE_QUOTED_STRING);
     if (!r) r = consumeToken(b, NUMBER);
     if (!r) r = expr_7(b, l + 1);
@@ -424,7 +453,7 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     if (!r) r = expr_25(b, l + 1);
     if (!r) r = expr_26(b, l + 1);
     if (!r) r = expr_27(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -934,6 +963,17 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // "false"
+  public static boolean false_$(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "false_$")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FALSE, "<false $>");
+    r = consumeToken(b, "false");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // fieldname ( "+" )? h expr
   // |	fieldname "(" ( params )* ")" h expr
   public static boolean field(PsiBuilder b, int l) {
@@ -1085,6 +1125,17 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     r = objlocal(b, l + 1);
     if (!r) r = assert_$(b, l + 1);
     if (!r) r = field(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "null"
+  public static boolean null_$(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "null_$")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, NULL, "<null $>");
+    r = consumeToken(b, "null");
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1400,6 +1451,28 @@ public class JsonnetParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, ",");
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "self"
+  public static boolean self(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "self")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SELF, "<self>");
+    r = consumeToken(b, "self");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "true"
+  public static boolean true_$(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "true_$")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, TRUE, "<true $>");
+    r = consumeToken(b, "true");
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

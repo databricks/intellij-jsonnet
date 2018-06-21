@@ -10,7 +10,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.jsonnetplugin.psi.JsonnetTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.jsonnetplugin.psi.*;
-import null.null;
 
 public class JsonnetBindImpl extends ASTWrapperPsiElement implements JsonnetBind {
 
@@ -29,8 +28,8 @@ public class JsonnetBindImpl extends ASTWrapperPsiElement implements JsonnetBind
 
   @Override
   @NotNull
-  public null getExpr() {
-    return findNotNullChildByClass(null.class);
+  public JsonnetExpr getExpr() {
+    return findNotNullChildByClass(JsonnetExpr.class);
   }
 
   @Override

@@ -11,14 +11,14 @@ import static com.jsonnetplugin.psi.JsonnetTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.jsonnetplugin.psi.*;
 
-public class JsonnetPropertyImpl extends ASTWrapperPsiElement implements JsonnetProperty {
+public class JsonnetTrueImpl extends ASTWrapperPsiElement implements JsonnetTrue {
 
-  public JsonnetPropertyImpl(ASTNode node) {
+  public JsonnetTrueImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsonnetVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitTrue(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {

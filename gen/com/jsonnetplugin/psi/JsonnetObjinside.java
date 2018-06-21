@@ -4,7 +4,6 @@ package com.jsonnetplugin.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import null.null;
 
 public interface JsonnetObjinside extends PsiElement {
 
@@ -12,7 +11,7 @@ public interface JsonnetObjinside extends PsiElement {
   JsonnetCompspec getCompspec();
 
   @NotNull
-  List<null> getExprList();
+  List<JsonnetExpr> getExprList();
 
   @Nullable
   JsonnetForspec getForspec();
