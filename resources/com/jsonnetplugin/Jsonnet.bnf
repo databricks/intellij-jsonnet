@@ -6,7 +6,7 @@
   psiClassPrefix="Jsonnet"
   psiImplClassSuffix="Impl"
   psiPackage="com.jsonnetplugin.psi"
-  psiImplPackage="com.jsonnetlugin.psi.impl"
+  psiImplPackage="com.jsonnetplugin.psi.impl"
 
   elementTypeHolderClass="com.jsonnetplugin.psi.JsonnetTypes"
   elementTypeClass="com.jsonnetplugin.psi.JsonnetElementType"
