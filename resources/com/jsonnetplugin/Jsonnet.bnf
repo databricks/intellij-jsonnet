@@ -44,6 +44,8 @@
     // in package.json.
     // See https://github.com/npm/validate-npm-package-name
     IDENTIFIER="regexp:[[:jletterdigit:]~!()*\-./@\^<>=]+"
+    IMPORT='import'
+    LOCAL='local'
   ]
 
 }
@@ -74,14 +76,14 @@ expr0 ::=	"null" | "true" | "false" | self | dollar | DOUBLE_QUOTED_STRING | NUM
 |	"super" "." IDENTIFIER
 |	"super" "[" expr "]"
 //|	expr "(" ( args )? ")"
-|	"local" bind ( "," bind )* ";" expr
+|   outerlocal
 |	"if" expr "then" expr ( "else" expr )?
 //|	expr binaryop expr
 |	unaryop expr
 //|	expr "{" objinside "}"
 |	"function" "(" ( params )? ")" expr
 |	assert ";" expr
-|	import
+|	importop
 |	"importstr" DOUBLE_QUOTED_STRING
 |	"error" expr
 //|	expr "in" "super"
@@ -113,4 +115,5 @@ params	::=	IDENTIFIER ( "," IDENTIFIER )* ( "," IDENTIFIER "=" expr )* ( "," )?
 |	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )? ( "," )?
 binaryop	::=	"*" | "/" | "%" | "+" | "-" | "<<" | ">>" | "<" | "<=" | ">" | ">=" | "==" | "!=" | "in" | "&" | "^" | "|" | "&&" | "||"
 unaryop	::=	"-" | "+" | "!" | "~"
-import ::= "import" DOUBLE_QUOTED_STRING
+importop ::= "import" DOUBLE_QUOTED_STRING
+outerlocal ::= "local" bind ( "," bind )* ";" expr
