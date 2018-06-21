@@ -36,7 +36,6 @@
     TRUE='true'
     FALSE='false'
     NULL='null'
-    IMPORT='import'
     // Actually not defined in RFC 4627, but may be used for JSON5 and helps with
     // auto completion of keywords. Semantically, it represents "bad word" type
     // of tokens
@@ -82,7 +81,7 @@ expr0 ::=	"null" | "true" | "false" | self | dollar | DOUBLE_QUOTED_STRING | NUM
 //|	expr "{" objinside "}"
 |	"function" "(" ( params )? ")" expr
 |	assert ";" expr
-|	"import" DOUBLE_QUOTED_STRING
+|	import
 |	"importstr" DOUBLE_QUOTED_STRING
 |	"error" expr
 //|	expr "in" "super"
@@ -114,3 +113,4 @@ params	::=	IDENTIFIER ( "," IDENTIFIER )* ( "," IDENTIFIER "=" expr )* ( "," )?
 |	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )? ( "," )?
 binaryop	::=	"*" | "/" | "%" | "+" | "-" | "<<" | ">>" | "<" | "<=" | ">" | ">=" | "==" | "!=" | "in" | "&" | "^" | "|" | "&&" | "||"
 unaryop	::=	"-" | "+" | "!" | "~"
+import ::= "import" DOUBLE_QUOTED_STRING

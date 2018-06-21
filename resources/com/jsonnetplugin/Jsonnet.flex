@@ -40,7 +40,6 @@ IDENTIFIER=[[:jletterdigit:]~!()*\-."/"@\^<>=]+
   "true"                      { return TRUE; }
   "false"                     { return FALSE; }
   "null"                      { return NULL; }
-  "import"                    { return IMPORT; }
 
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
