@@ -2,7 +2,9 @@ package com.jsonnetplugin;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.jsonnetplugin.psi.JsonnetTypes;
+import static com.jsonnetplugin.psi.JsonnetTypes.*;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 import com.intellij.psi.TokenType;
 
 %%

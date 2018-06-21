@@ -39,18 +39,18 @@ public class JsonnetSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(JsonnetTypes.SEPARATOR)) {
-            return SEPARATOR_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.KEY)) {
-            return KEY_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.VALUE)) {
-            return VALUE_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.COMMENT)) {
-            return COMMENT_KEYS;
-        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
-            return BAD_CHAR_KEYS;
-        } else {
+//        if (tokenType.equals(JsonnetTypes.SEPARATOR)) {
+//            return SEPARATOR_KEYS;
+//        } else if (tokenType.equals(JsonnetTypes.KEY)) {
+//            return KEY_KEYS;
+//        } else if (tokenType.equals(JsonnetTypes.VALUE)) {
+//            return VALUE_KEYS;
+//        } else if (tokenType.equals(JsonnetTypes.COMMENT)) {
+//            return COMMENT_KEYS;
+//        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+//            return BAD_CHAR_KEYS;
+//        } else {
             return EMPTY_KEYS;
-        }
+//        }
     }
 }
