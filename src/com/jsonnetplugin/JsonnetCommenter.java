@@ -19,7 +19,7 @@ public class JsonnetCommenter implements Commenter {
     @Nullable
     @Override
     public String getBlockCommentSuffix() {
-        return "/*";
+        return "*/";
     }
 
     @Nullable
