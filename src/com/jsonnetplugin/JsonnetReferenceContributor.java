@@ -5,6 +5,7 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import com.jsonnetplugin.psi.JsonnetImportop;
+import com.jsonnetplugin.psi.JsonnetImportstrop;
 import org.jetbrains.annotations.NotNull;
 
 public class JsonnetReferenceContributor extends PsiReferenceContributor {
@@ -19,19 +20,12 @@ public class JsonnetReferenceContributor extends PsiReferenceContributor {
                     public PsiReference[] getReferencesByElement(@NotNull PsiElement element,
                                                                  @NotNull ProcessingContext
                                                                          context) {
-//                        JsonnetImportop literalExpression = (JsonnetImportop) element;
-                        System.out.println("JsonnetReferenceCOntributor#registerReferenceProviders getReferencesByElement");
-//                        String txt = element.getLastChild().getText();
-//                        String value = literalExpression.getValue() instanceof String ?
-//                                (String) literalExpression.getValue() : null;
-//                        if (value != null && value.startsWith("jsonnet" + ":")) {
-//                            return new PsiReference[]{
-//                                    new JsonnetReference(element, };
-//                        }
                         return new PsiReference[]{
-                                new JsonnetReference(element, element.getTextRange())
+                                new JsonnetReference(
+                                        element,
+                                        element.getTextRange().shiftLeft(element.getTextOffset())
+                                )
                         };
-//                        return PsiReference.EMPTY_ARRAY;
                     }
                 });
     }
