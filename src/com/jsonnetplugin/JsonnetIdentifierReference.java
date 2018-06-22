@@ -4,10 +4,8 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
-import com.jsonnetplugin.psi.JsonnetBind;
-import com.jsonnetplugin.psi.JsonnetExpr;
-import com.jsonnetplugin.psi.JsonnetExpr0;
-import com.jsonnetplugin.psi.JsonnetOuterlocal;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.jsonnetplugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +30,14 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                 for (JsonnetBind b: binds) {
                     if (identifier.equals(findIdentifierFromBind(b))) {
                         results.add(new PsiElementResolveResult(b));
+                        return results.toArray(new ResolveResult[results.size()]);
+                    }
+                }
+            } else if (element instanceof JsonnetExpr0 && isFunctionExpr((JsonnetExpr0) element)) {
+                List<JsonnetIdentifier0> identifiers = findIdentifierFromFunctionExpr0((JsonnetExpr0) element);
+                for (JsonnetIdentifier0 i: identifiers) {
+                    if (identifier.equals(i.getText())) {
+                        results.add(new PsiElementResolveResult(i));
                         return results.toArray(new ResolveResult[results.size()]);
                     }
                 }
@@ -69,5 +75,29 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
 
     public static String findIdentifierFromBind(JsonnetBind element) {
         return element.getFirstChild().getText();
+    }
+
+    public static List<JsonnetIdentifier0> findIdentifierFromFunctionExpr0(JsonnetExpr0 element) {
+        List<JsonnetIdentifier0> ret = new ArrayList<>();
+        PsiElement params = null;
+        for (PsiElement c: element.getChildren()) {
+            if (c instanceof JsonnetParams) params = c;
+        }
+        if (params == null) return ret;
+        for (PsiElement child: params.getChildren()) {
+            if (child instanceof JsonnetParam) {
+                PsiElement identifier = child.getFirstChild();
+                if (!(identifier instanceof JsonnetIdentifier0)) continue;
+                ret.add((JsonnetIdentifier0) identifier);
+            }
+        }
+        return ret;
+    }
+
+    public static boolean isFunctionExpr(JsonnetExpr0 element) {
+        if (element.getFirstChild() instanceof LeafPsiElement) {
+            return ((LeafPsiElement) element.getFirstChild()).getElementType().equals(JsonnetTypes.FUNCTION);
+        }
+        return false;
     }
 }
