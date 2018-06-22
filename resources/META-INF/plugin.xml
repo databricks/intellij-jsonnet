@@ -1,17 +1,15 @@
 <idea-plugin>
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <id>com.databricks</id>
+  <name>Jsonnet</name>
+  <version>0.1</version>
+  <vendor email="haoyi.li@databricks.com" url="https://databricks.com/">Databricks</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      A plugin to support the Jsonnet JSON templating language (https://jsonnet.org/)
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+
     ]]>
   </change-notes>
 
