@@ -27,6 +27,7 @@ SINGLE_QUOTED_STRING='([^\\']|\\[^\r\n])*'?
 VERBATIM_DOUBLE_QUOTED_STRING=@\"([^\"]|\"\")*\"?
 VERBATIM_SINGLE_QUOTED_STRING=@'([^']|'')*'?
 NUMBER=((0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?)|Infinity|-Infinity|NaN
+TRIPLE_BAR_QUOTED_STRING=\|\|\|\s*\n\s+[^]*\|\|\|
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 
 %%
@@ -89,6 +90,7 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
   {VERBATIM_DOUBLE_QUOTED_STRING} { return VERBATIM_DOUBLE_QUOTED_STRING; }
   {VERBATIM_SINGLE_QUOTED_STRING} { return VERBATIM_SINGLE_QUOTED_STRING; }
+  {TRIPLE_BAR_QUOTED_STRING}  { return TRIPLE_BAR_QUOTED_STRING; }
   {NUMBER}                    { return NUMBER; }
   {IDENTIFIER}                { return IDENTIFIER; }
 
