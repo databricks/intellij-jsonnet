@@ -27,6 +27,23 @@ public class JsonnetReferenceContributor extends PsiReferenceContributor {
                                 )
                         };
                     }
+                }
+        );
+        registrar.registerReferenceProvider(
+                PlatformPatterns.psiElement(JsonnetImportstrop.class),
+                new PsiReferenceProvider() {
+                    @NotNull
+                    @Override
+                    public PsiReference[] getReferencesByElement(@NotNull PsiElement element,
+                                                                 @NotNull ProcessingContext
+                                                                         context) {
+                        return new PsiReference[]{
+                                new JsonnetReference(
+                                        element,
+                                        element.getTextRange().shiftLeft(element.getTextOffset())
+                                )
+                        };
+                    }
                 });
     }
 }
