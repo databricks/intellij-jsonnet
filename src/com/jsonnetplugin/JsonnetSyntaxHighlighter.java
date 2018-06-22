@@ -57,12 +57,28 @@ public class JsonnetSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(JsonnetTypes.LINE_COMMENT)) {
             return COMMENT_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.TRUE) || tokenType.equals(JsonnetTypes.FALSE)) {
+        } else if (
+            tokenType.equals(JsonnetTypes.TRUE) ||
+            tokenType.equals(JsonnetTypes.FALSE) ||
+            tokenType.equals(JsonnetTypes.NULL) ||
+            tokenType.equals(JsonnetTypes.IMPORT) ||
+            tokenType.equals(JsonnetTypes.IMPORTSTR) ||
+            tokenType.equals(JsonnetTypes.LOCAL) ||
+            tokenType.equals(JsonnetTypes.FUNCTION) ||
+            tokenType.equals(JsonnetTypes.IN) ||
+            tokenType.equals(JsonnetTypes.IF) ||
+            tokenType.equals(JsonnetTypes.THEN) ||
+            tokenType.equals(JsonnetTypes.ELSE) ||
+            tokenType.equals(JsonnetTypes.SUPER) ||
+            tokenType.equals(JsonnetTypes.ERROR) ||
+            tokenType.equals(JsonnetTypes.SELF) ||
+            tokenType.equals(JsonnetTypes.FOR) ||
+            tokenType.equals(JsonnetTypes.ASSERT) ||
+            tokenType.equals(JsonnetTypes.DOLLAR)
+        ) {
             return KEY_KEYS;
         } else if (tokenType.equals(JsonnetTypes.NUMBER)) {
             return NUMBER_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.NULL)) {
-            return NULL_KEYS;
         } else if (tokenType.equals(JsonnetTypes.SINGLE_QUOTED_STRING)) {
             return VALUE_KEYS;
         } else if (tokenType.equals(JsonnetTypes.DOUBLE_QUOTED_STRING)) {
