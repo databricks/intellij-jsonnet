@@ -10,12 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public abstract class JsonnetNamedElementImpl extends ASTWrapperPsiElement implements JsonnetNamedElement {
     public JsonnetNamedElementImpl(@NotNull ASTNode node) {
         super(node);
-        System.out.println("JsonnetNamedElementImpl.<init>");
     }
 
     @Override
     public PsiReference getReference() {
-        System.out.println("JsonnetNamedElementImpl.getReference " + super.getReference());
         return super.getReference();
     }
 
@@ -23,8 +21,6 @@ public abstract class JsonnetNamedElementImpl extends ASTWrapperPsiElement imple
     @Override
     public PsiReference[] getReferences() {
         PsiReference[] x = ReferenceProvidersRegistry.getReferencesFromProviders(this);
-        System.out.println("JsonnetNamedElementImpl.getReferences " + x.length);
-
         return x;
     }
 }
