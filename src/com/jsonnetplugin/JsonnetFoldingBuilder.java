@@ -21,7 +21,6 @@ public class JsonnetFoldingBuilder extends FoldingBuilderEx {
         Collection<PsiElement> literalExpressions = PsiTreeUtil.findChildrenOfType(root, JsonnetObj.class);
         literalExpressions.addAll(PsiTreeUtil.findChildrenOfType(root, JsonnetArr.class));
         literalExpressions.addAll(PsiTreeUtil.findChildrenOfType(root, JsonnetArrcomp.class));
-        System.out.println("literalExpressions.size() " + literalExpressions.size());
         for (final PsiElement literalExpression : literalExpressions) {
             FoldingGroup group = FoldingGroup.newGroup(
                 "jsonnet-" + literalExpression.getTextRange().getStartOffset() +

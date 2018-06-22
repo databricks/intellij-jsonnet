@@ -5,12 +5,12 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementResolveResult;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.ResolveResult;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.util.ProcessingContext;
-import com.jsonnetplugin.psi.JsonnetFile;
-import com.jsonnetplugin.psi.JsonnetImportop;
-import com.jsonnetplugin.psi.JsonnetTypes;
+import com.jsonnetplugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -32,6 +32,16 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                         resultSet.addElement(LookupElementBuilder.create("true"));
                         resultSet.addElement(LookupElementBuilder.create("false"));
                         resultSet.addElement(LookupElementBuilder.create("local"));
+                        PsiElement element = parameters.getPosition().getOriginalElement();
+                        while (element != null) {
+                            if (element instanceof JsonnetOuterlocal) {
+                                List<JsonnetBind> binds = JsonnetIdentifierReference.findBindInOuterLocal((JsonnetOuterlocal) element);
+                                for (JsonnetBind b: binds) {
+                                    resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
+                                }
+                            }
+                            element = element.getParent();
+                        }
                     }
                 }
         );
@@ -43,7 +53,6 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                                @NotNull CompletionResultSet resultSet) {
                         if (checkIfImport(parameters.getPosition())) {
                             String text = parameters.getPosition().getText();
-                            System.out.println(text);
                             addFileCompletions(parameters.getOriginalFile(), text, resultSet);
                         }
                     }

@@ -18,7 +18,6 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
     @NotNull
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
-        System.out.println("JsonnetImportopReference#multiResolve");
         String importText = this.getElement().getLastChild().getText();
         if (importText.startsWith("\"")) importText = importText.substring(1);
         if (importText.endsWith("\"")) importText = importText.substring(0, importText.length() - 1);
@@ -43,7 +42,6 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
     @Nullable
     @Override
     public PsiElement resolve() {
-        System.out.println("JsonnetImportopReference#resolve");
         ResolveResult[] resolveResults = multiResolve(false);
         return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
     }
@@ -51,7 +49,6 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
     @NotNull
     @Override
     public Object[] getVariants() {
-        System.out.println("JsonnetImportopReference#getVariants");
         return new LookupElement[]{};
     }
 }

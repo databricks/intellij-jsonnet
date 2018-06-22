@@ -18,7 +18,6 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
 
     public JsonnetIdentifierReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
-        System.out.println("JsonnetIdentifierReference#init");
     }
 
     @NotNull
@@ -45,7 +44,6 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
     @Nullable
     @Override
     public PsiElement resolve() {
-        System.out.println("JsonnetIdentifierReference#resolve");
         ResolveResult[] resolveResults = multiResolve(false);
         return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
     }
@@ -53,7 +51,6 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
     @NotNull
     @Override
     public Object[] getVariants() {
-        System.out.println("JsonnetIdentifierReference#getVariants");
         return new LookupElement[]{};
     }
 
