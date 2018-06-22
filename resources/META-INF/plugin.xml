@@ -29,6 +29,7 @@
     <fileTypeFactory implementation="com.jsonnetplugin.JsonnetFileTypeFactory"/>
     <lang.commenter language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCommenter"/>
     <completion.contributor language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCompletionContributor"/>
+    <lang.foldingBuilder language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetFoldingBuilder"/>
   </extensions>
 
   <actions>

@@ -20,7 +20,7 @@ import com.intellij.psi.TokenType;
 EOL=\R
 WHITE_SPACE=\s+
 
-LINE_COMMENT="//"|"#".*
+LINE_COMMENT="//"[^\n]*|"#"[^\n]*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
 DOUBLE_QUOTED_STRING=\"([^\\\"]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\']|\\[^\r\n])*'?

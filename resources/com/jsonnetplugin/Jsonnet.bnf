@@ -37,9 +37,9 @@ objextend ::= L_CURLY objinside R_CURLY
 insuper ::= IN SUPER
 expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR | SINGLE_QUOTED_STRING
 |   DOUBLE_QUOTED_STRING | VERBATIM_SINGLE_QUOTED_STRING | VERBATIM_DOUBLE_QUOTED_STRING | NUMBER
-|	L_CURLY objinside R_CURLY
-|	L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
-|	L_BRACKET expr COMMA? forspec compspec R_BRACKET
+|	obj
+|	arr
+|	arrcomp
 |	SUPER DOT IDENTIFIER
 |	SUPER L_BRACKET expr R_BRACKET
 |   outerlocal
@@ -52,7 +52,9 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR | SINGLE_QUOTED_STRING
 |	IMPORTSTR DOUBLE_QUOTED_STRING
 |	ERROR expr
 |	IDENTIFIER
-
+obj ::= L_CURLY objinside? R_CURLY
+arr ::= L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
+arrcomp ::= L_BRACKET expr COMMA? forspec compspec R_BRACKET
 objinside	::=	member ( COMMA member )* ( COMMA )?
 |	( objlocal COMMA )* L_BRACKET expr R_BRACKET COLON expr ( ( COMMA objlocal )* ( COMMA )? )? forspec compspec
 
