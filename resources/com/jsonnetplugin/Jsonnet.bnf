@@ -31,7 +31,7 @@
 
 root ::= expr
 expr ::= expr0 (select | slice | slice2 | apply | binsuffix | objextend | insuper)*
-select ::= DOT IDENTIFIER
+select ::= DOT IDENTIFIER0
 slice ::= L_BRACKET expr ( COLON ( expr ( COLON ( expr )? )? )? )? R_BRACKET
 slice2 ::= L_BRACKET COLON ( expr ( COLON ( expr )? )? )? R_BRACKET
 apply ::= L_PAREN ( args )? R_PAREN
@@ -48,7 +48,7 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 |	obj
 |	arr
 |	arrcomp
-|	SUPER DOT IDENTIFIER
+|	SUPER DOT IDENTIFIER0
 |	SUPER L_BRACKET expr R_BRACKET
 |   outerlocal
 |	IF expr THEN expr ( ELSE expr )?
@@ -59,7 +59,7 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 |	importop
 |	importstrop
 |	ERROR expr
-|	IDENTIFIER
+|	IDENTIFIER0
 obj ::= L_CURLY objinside? R_CURLY
 arr ::= L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
 arrcomp ::= L_BRACKET expr COMMA? forspec compspec R_BRACKET
@@ -74,9 +74,9 @@ field ::=	fieldname ( PLUS )? h expr
 h ::=	COLON | COLON2 | COLON3
 objlocal	::=	LOCAL bind
 compspec ::=	( forspec | ifspec )*
-forspec	::=	FOR IDENTIFIER IN expr
+forspec	::=	FOR IDENTIFIER0 IN expr
 ifspec	::=	IF expr
-fieldname	::=	IDENTIFIER
+fieldname	::=	IDENTIFIER0
 | DOUBLE_QUOTED_STRING
 | SINGLE_QUOTED_STRING
 | VERBATIM_DOUBLE_QUOTED_STRING
@@ -84,12 +84,12 @@ fieldname	::=	IDENTIFIER
 | TRIPLE_BAR_QUOTED_STRING
 | L_BRACKET expr R_BRACKET
 assertStmt	::=	ASSERT expr ( COLON expr )?
-bind ::=	IDENTIFIER EQUAL expr
-|	IDENTIFIER L_PAREN ( params )? R_PAREN EQUAL expr
+bind ::=	IDENTIFIER0 EQUAL expr
+|	IDENTIFIER0 L_PAREN ( params )? R_PAREN EQUAL expr
 arg ::= (IDENTIFIER EQUAL)? expr
 args	::= arg ( COMMA arg )* ( COMMA )?
 
-param ::= IDENTIFIER (EQUAL expr)?
+param ::= IDENTIFIER0 (EQUAL expr)?
 params	::=	param (COMMA param)* ( COMMA )?
 
 binaryop	::=	ASTERISK | SLASH | PERCENT | PLUS | MINUS | DOUBLE_LESS | DOUBLE_GREATER | LESS_THAN | LESS_EQUAL | GREATER_THAN | GREATER_EQUAL | DOUBLE_EQUAL | NOT_EQUAL | IN | AND | CARAT | BAR | DOUBLE_AND | DOUBLE_BAR
@@ -99,9 +99,15 @@ importop ::= (IMPORT (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)) {
     implements="com.jsonnetplugin.psi.JsonnetNamedElement"
     //methods=[getKey getValue getName setName getNameIdentifier]
 }
+
 importstrop ::= (IMPORTSTR (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)) {
     mixin="com.jsonnetplugin.psi.impl.JsonnetNamedElementImpl"
     implements="com.jsonnetplugin.psi.JsonnetNamedElement"
     //methods=[getKey getValue getName setName getNameIdentifier]
 }
 outerlocal ::= LOCAL bind ( COMMA bind )* SEMICOLON expr
+IDENTIFIER0 ::= IDENTIFIER {
+    mixin="com.jsonnetplugin.psi.impl.JsonnetNamedElementImpl"
+    implements="com.jsonnetplugin.psi.JsonnetNamedElement"
+}
+

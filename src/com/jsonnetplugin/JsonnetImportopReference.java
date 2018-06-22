@@ -9,17 +9,16 @@ import org.jetbrains.annotations.*;
 
 import java.util.*;
 
-public class JsonnetReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
-    public JsonnetReference(@NotNull PsiElement element, TextRange textRange) {
+    public JsonnetImportopReference(@NotNull PsiElement element, TextRange textRange) {
         super(element, textRange);
-        System.out.println("JsonnetReference");
     }
 
     @NotNull
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
-        System.out.println("JsonnetReference#multiResolve");
+        System.out.println("JsonnetImportopReference#multiResolve");
         String importText = this.getElement().getLastChild().getText();
         if (importText.startsWith("\"")) importText = importText.substring(1);
         if (importText.endsWith("\"")) importText = importText.substring(0, importText.length() - 1);
@@ -44,7 +43,7 @@ public class JsonnetReference extends PsiReferenceBase<PsiElement> implements Ps
     @Nullable
     @Override
     public PsiElement resolve() {
-        System.out.println("JsonnetReference#resolve");
+        System.out.println("JsonnetImportopReference#resolve");
         ResolveResult[] resolveResults = multiResolve(false);
         return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
     }
@@ -52,19 +51,7 @@ public class JsonnetReference extends PsiReferenceBase<PsiElement> implements Ps
     @NotNull
     @Override
     public Object[] getVariants() {
-        System.out.println("JsonnetReference#getVariants");
-//        Project project = myElement.getProject();
-//        List<JsonnetProperty> properties = JsonnetUtil.findProperties(project);
-//        List<LookupElement> variants = new ArrayList<LookupElement>();
-//        for (final JsonnetProperty property : properties) {
-//            if (property.getKey() != null && property.getKey().length() > 0) {
-//                variants.add(LookupElementBuilder.create(property).
-//                        withIcon(JsonnetIcons.FILE).
-//                        withTypeText(property.getContainingFile().getName())
-//                );
-//            }
-//        }
-//        return variants.toArray();
+        System.out.println("JsonnetImportopReference#getVariants");
         return new LookupElement[]{};
     }
 }
