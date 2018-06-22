@@ -28,6 +28,7 @@
     <lang.syntaxHighlighterFactory language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetSyntaxHighlighterFactory"/>
     <fileTypeFactory implementation="com.jsonnetplugin.JsonnetFileTypeFactory"/>
     <lang.commenter language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCommenter"/>
+    <completion.contributor language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCompletionContributor"/>
   </extensions>
 
   <actions>

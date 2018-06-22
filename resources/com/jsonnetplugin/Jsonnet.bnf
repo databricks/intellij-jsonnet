@@ -66,7 +66,12 @@ objlocal	::=	LOCAL bind
 compspec ::=	( forspec | ifspec )*
 forspec	::=	FOR IDENTIFIER IN expr
 ifspec	::=	IF expr
-fieldname	::=	IDENTIFIER | DOUBLE_QUOTED_STRING | L_BRACKET expr R_BRACKET
+fieldname	::=	IDENTIFIER
+| DOUBLE_QUOTED_STRING
+| SINGLE_QUOTED_STRING
+| VERBATIM_DOUBLE_QUOTED_STRING
+| VERBATIM_SINGLE_QUOTED_STRING
+| L_BRACKET expr R_BRACKET
 assertStmt	::=	ASSERT expr ( COLON expr )?
 bind ::=	IDENTIFIER EQUAL expr
 |	IDENTIFIER L_PAREN ( params )? R_PAREN EQUAL expr
