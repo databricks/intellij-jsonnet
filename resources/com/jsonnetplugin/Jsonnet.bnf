@@ -13,63 +13,10 @@
   tokenTypeClass="com.jsonnetplugin.psi.JsonnetTokenType"
 
   tokens = [
-    L_CURLY='{'
-    R_CURLY='}'
-    L_BRACKET='['
-    R_BRACKET=']'
-
-    COMMA=','
-    COLON=':'
     LINE_COMMENT='regexp://.*'
     // "/*" ([^*]|\*+[^*/])* (\*+"/")?
     BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
-    // else /\*(?:[^*]|\*[^/])*\*+/
-
-    // unclosed string literal matches till the line's end
-    // any escape sequences included, illegal escapes are indicated by SyntaxHighlighter
-    // and JsonStringLiteralAnnotator
-    DOUBLE_QUOTED_STRING="regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
-    SINGLE_QUOTED_STRING="regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
-      STRING='regexp:"([^\\"\r\n]|\\([\\"/bfnrt]|u[a-fA-F0-9]{4}))*"?'
-
-    NUMBER='regexp:-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d*)?'
-    TRUE='true'
-    FALSE='false'
-    NULL='null'
-    // Actually not defined in RFC 4627, but may be used for JSON5 and helps with
-    // auto completion of keywords. Semantically, it represents "bad word" type
-    // of tokens
-    // Could be as loose as [^\s\[\]{}:,\"\']+, but is slightly more restricted
-    // for the time being to match most forms of npm package names and semver versions
-    // in package.json.
-    // See https://github.com/npm/validate-npm-package-name
-    IDENTIFIER="regexp:[[:jletterdigit:]~!()*\-./@\^<>=]+"
-    IMPORT='import'
-    LOCAL='local'
-    ASTERISK="*"
-    SLASH="/"
-    PERCENT="%"
-    PLUS="+"
-    MINUS="-"
-    DOUBLE_LESS="<<"
-    DOUBLE_GREATER=">>"
-    LESS_THAN="<"
-    LESS_EQUAL="<="
-    GREATER_THAN=">"
-    GREATER_EQUAL=">="
-    DOUBLE_EQUAL="=="
-    NOT_EQUAL="!="
-    IN="in"
-    AND="&"
-    CARAT="^"
-    BAR="|"
-    DOUBLE_AND="&&"
-    DOUBLE_BAR="||"
-    EXCLAMATION="!"
-    TILDE="~"
-    // TODO: Do we need "="
   ]
-
 }
 
 //jsonnetFile ::= item_*
@@ -81,61 +28,52 @@
 
 root ::= expr
 expr ::= expr0 select* slice* slice2* apply* binsuffix* objextend* insuper*
-select ::= "." IDENTIFIER
-slice ::= "[" expr ( ":" ( expr ( ":" ( expr )? )? )? )? "]"
-slice2 ::= "[" ":" ( expr ( ":" ( expr )? )? )? "]"
-apply ::= "(" ( args )? ")"
+select ::= DOT IDENTIFIER
+slice ::= L_BRACKET expr ( COLON ( expr ( COLON ( expr )? )? )? )? R_BRACKET
+slice2 ::= L_BRACKET COLON ( expr ( COLON ( expr )? )? )? R_BRACKET
+apply ::= L_PAREN ( args )? R_PAREN
 binsuffix ::= binaryop expr
-objextend ::= "{" objinside "}"
-insuper ::= "in" "super"
-expr0 ::=	"null" | "true" | "false" | self | dollar | DOUBLE_QUOTED_STRING | NUMBER
-|	"{" objinside "}"
-|	"[" (expr ("," expr)* ","?)? "]"
-|	"[" expr ","? forspec compspec "]"
-//|	expr "." IDENTIFIER
-//|	expr "[" expr ( ":" ( expr ( ":" ( expr )? )? )? )? "]"
-//|	expr "[" ":" ( expr ( ":" ( expr )? )? )? "]"
-|	"super" "." IDENTIFIER
-|	"super" "[" expr "]"
-//|	expr "(" ( args )? ")"
+objextend ::= L_CURLY objinside R_CURLY
+insuper ::= IN SUPER
+expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR | SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | NUMBER
+|	L_CURLY objinside R_CURLY
+|	L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
+|	L_BRACKET expr COMMA? forspec compspec R_BRACKET
+|	SUPER DOT IDENTIFIER
+|	SUPER L_BRACKET expr R_BRACKET
 |   outerlocal
-|	"if" expr "then" expr ( "else" expr )?
-//|	expr binaryop expr
+|	IF expr THEN expr ( ELSE expr )?
+|	L_PAREN expr R_PAREN
 |	unaryop expr
-//|	expr "{" objinside "}"
-|	"function" "(" ( params )? ")" expr
-|	assert ";" expr
+|	FUNCTION L_PAREN ( params )? R_PAREN expr
+|	assertStmt SEMICOLON expr
 |	importop
-|	"importstr" DOUBLE_QUOTED_STRING
-|	"error" expr
-//|	expr "in" "super"
+|	IMPORTSTR DOUBLE_QUOTED_STRING
+|	ERROR expr
 |	IDENTIFIER
 
-self ::= "self"
-dollar ::= "$"
+objinside	::=	member ( COMMA member )* ( COMMA )?
+|	( objlocal COMMA )* L_BRACKET expr R_BRACKET COLON expr ( ( COMMA objlocal )* ( COMMA )? )? forspec compspec
 
-objinside	::=	member ( "," member )* ( "," )?
-|	( objlocal "," )* "[" expr "]" ":" expr ( ( "," objlocal )* ( "," )? )? forspec compspec
+member	::=	objlocal | assertStmt | field
 
-member	::=	objlocal | assert | field
+field ::=	fieldname ( PLUS )? h expr
+|	fieldname L_PAREN ( params )* R_PAREN h expr
 
-field ::=	fieldname ( "+" )? h expr
-|	fieldname "(" ( params )* ")" h expr
-
-h ::=	":" | "::" | ":::"
-objlocal	::=	"local" bind
+h ::=	COLON | COLON2 | COLON3
+objlocal	::=	LOCAL bind
 compspec ::=	( forspec | ifspec )*
-forspec	::=	"for" IDENTIFIER "in" expr
-ifspec	::=	"if" expr
-fieldname	::=	IDENTIFIER | DOUBLE_QUOTED_STRING | "[" expr "]"
-assert	::=	"assert" expr ( ":" expr )?
-bind ::=	IDENTIFIER "=" expr
-|	IDENTIFIER "(" ( params )? ")" "=" expr
-args	::=	expr ( "," expr )* ( "," IDENTIFIER "=" expr )* ( "," )?
-|	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )* ( "," )?
-params	::=	IDENTIFIER ( "," IDENTIFIER )* ( "," IDENTIFIER "=" expr )* ( "," )?
-|	IDENTIFIER "=" expr ( "," IDENTIFIER "=" expr )? ( "," )?
-binaryop	::=	"*" | "/" | "%" | "+" | "-" | "<<" | ">>" | "<" | "<=" | ">" | ">=" | "==" | "!=" | "in" | "&" | "^" | "|" | "&&" | "||"
-unaryop	::=	"-" | "+" | "!" | "~"
-importop ::= "import" DOUBLE_QUOTED_STRING
-outerlocal ::= "local" bind ( "," bind )* ";" expr
+forspec	::=	FOR IDENTIFIER IN expr
+ifspec	::=	IF expr
+fieldname	::=	IDENTIFIER | DOUBLE_QUOTED_STRING | L_BRACKET expr R_BRACKET
+assertStmt	::=	ASSERT expr ( COLON expr )?
+bind ::=	IDENTIFIER EQUAL expr
+|	IDENTIFIER L_PAREN ( params )? R_PAREN EQUAL expr
+args	::=	expr ( COMMA expr )* ( COMMA IDENTIFIER EQUAL expr )* ( COMMA )?
+|	IDENTIFIER EQUAL expr ( COMMA IDENTIFIER EQUAL expr )* ( COMMA )?
+params	::=	IDENTIFIER ( COMMA IDENTIFIER )* ( COMMA IDENTIFIER EQUAL expr )* ( COMMA )?
+|	IDENTIFIER EQUAL expr ( COMMA IDENTIFIER EQUAL expr )? ( COMMA )?
+binaryop	::=	ASTERISK | SLASH | PERCENT | PLUS | MINUS | DOUBLE_LESS | DOUBLE_GREATER | LESS_THAN | LESS_EQUAL | GREATER_THAN | GREATER_EQUAL | DOUBLE_EQUAL | NOT_EQUAL | IN | AND | CARAT | BAR | DOUBLE_AND | DOUBLE_BAR
+unaryop	::=	MINUS | PLUS | EXCLAMATION | TILDE
+importop ::= IMPORT DOUBLE_QUOTED_STRING
+outerlocal ::= LOCAL bind ( COMMA bind )* SEMICOLON expr

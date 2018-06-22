@@ -20,12 +20,12 @@ import com.intellij.psi.TokenType;
 EOL=\R
 WHITE_SPACE=\s+
 
-LINE_COMMENT="//".*
+LINE_COMMENT="//"|"#".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
 NUMBER=(-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?)|Infinity|-Infinity|NaN
-IDENTIFIER=[[:jletterdigit:]~!()*\-."/"@\^<>=]+
+IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 
 %%
 <YYINITIAL> {
@@ -35,12 +35,20 @@ IDENTIFIER=[[:jletterdigit:]~!()*\-."/"@\^<>=]+
   "}"                         { return R_CURLY; }
   "["                         { return L_BRACKET; }
   "]"                         { return R_BRACKET; }
+  "("                         { return L_PAREN; }
+  ")"                         { return R_PAREN; }
   ","                         { return COMMA; }
+  "."                         { return DOT; }
+  ";"                         { return SEMICOLON; }
+  "="                         { return EQUAL; }
   ":"                         { return COLON; }
+  "::"                        { return COLON2; }
+  ":::"                       { return COLON3; }
   "true"                      { return TRUE; }
   "false"                     { return FALSE; }
   "null"                      { return NULL; }
   "import"                    { return IMPORT; }
+  "importstr"                 { return IMPORTSTR; }
   "local"                     { return LOCAL; }
   "*"                         { return ASTERISK; }
   "/"                         { return SLASH; }
@@ -63,7 +71,16 @@ IDENTIFIER=[[:jletterdigit:]~!()*\-."/"@\^<>=]+
   "||"                        { return DOUBLE_BAR; }
   "!"                         { return EXCLAMATION; }
   "~"                         { return TILDE; }
-
+  "function"                  { return FUNCTION; }
+  "if"                        { return IF; }
+  "then"                      { return THEN; }
+  "else"                      { return ELSE; }
+  "super"                     { return SUPER; }
+  "error"                     { return ERROR; }
+  "self"                      { return SELF; }
+  "for"                       { return FOR; }
+  "$"                         { return DOLLAR; }
+  "assert"                    { return ASSERT; }
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }

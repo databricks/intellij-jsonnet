@@ -63,7 +63,9 @@ public class JsonnetSyntaxHighlighter extends SyntaxHighlighterBase {
             return NUMBER_KEYS;
         } else if (tokenType.equals(JsonnetTypes.NULL)) {
             return NULL_KEYS;
-        } else if (tokenType.equals(JsonnetTypes.STRING)) {
+        } else if (tokenType.equals(JsonnetTypes.SINGLE_QUOTED_STRING)) {
+            return VALUE_KEYS;
+        } else if (tokenType.equals(JsonnetTypes.DOUBLE_QUOTED_STRING)) {
             return VALUE_KEYS;
         } else if (tokenType.equals(JsonnetTypes.PARAMS)) {
             return PARAM_KEYS;
