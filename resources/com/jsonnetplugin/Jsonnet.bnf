@@ -57,7 +57,7 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 |	FUNCTION L_PAREN ( params )? R_PAREN expr
 |	assertStmt SEMICOLON expr
 |	importop
-|	IMPORTSTR DOUBLE_QUOTED_STRING
+|	importstrop
 |	ERROR expr
 |	IDENTIFIER
 obj ::= L_CURLY objinside? R_CURLY
@@ -86,8 +86,8 @@ fieldname	::=	IDENTIFIER
 assertStmt	::=	ASSERT expr ( COLON expr )?
 bind ::=	IDENTIFIER EQUAL expr
 |	IDENTIFIER L_PAREN ( params )? R_PAREN EQUAL expr
-args	::= IDENTIFIER EQUAL expr ( COMMA IDENTIFIER EQUAL expr )* ( COMMA )?
-| expr ( COMMA expr )* ( COMMA IDENTIFIER EQUAL expr )* ( COMMA )?
+arg ::= (IDENTIFIER EQUAL)? expr
+args	::= arg ( COMMA arg )* ( COMMA )?
 
 param ::= IDENTIFIER (EQUAL expr)?
 params	::=	param (COMMA param)* ( COMMA )?
@@ -95,6 +95,11 @@ params	::=	param (COMMA param)* ( COMMA )?
 binaryop	::=	ASTERISK | SLASH | PERCENT | PLUS | MINUS | DOUBLE_LESS | DOUBLE_GREATER | LESS_THAN | LESS_EQUAL | GREATER_THAN | GREATER_EQUAL | DOUBLE_EQUAL | NOT_EQUAL | IN | AND | CARAT | BAR | DOUBLE_AND | DOUBLE_BAR
 unaryop	::=	MINUS | PLUS | EXCLAMATION | TILDE
 importop ::= (IMPORT (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)) {
+    mixin="com.jsonnetplugin.psi.impl.JsonnetNamedElementImpl"
+    implements="com.jsonnetplugin.psi.JsonnetNamedElement"
+    //methods=[getKey getValue getName setName getNameIdentifier]
+}
+importstrop ::= (IMPORTSTR (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)) {
     mixin="com.jsonnetplugin.psi.impl.JsonnetNamedElementImpl"
     implements="com.jsonnetplugin.psi.JsonnetNamedElement"
     //methods=[getKey getValue getName setName getNameIdentifier]
