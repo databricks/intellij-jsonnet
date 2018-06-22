@@ -26,7 +26,7 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\']|\\[^\r\n])*'?
 VERBATIM_DOUBLE_QUOTED_STRING=@\"([^\"]|\"\")*\"?
 VERBATIM_SINGLE_QUOTED_STRING=@'([^']|'')*'?
-NUMBER=(-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?)|Infinity|-Infinity|NaN
+NUMBER=((0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?)|Infinity|-Infinity|NaN
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 
 %%

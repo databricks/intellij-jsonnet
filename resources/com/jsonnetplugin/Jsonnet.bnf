@@ -27,7 +27,7 @@
 
 
 root ::= expr
-expr ::= expr0 select* slice* slice2* apply* binsuffix* objextend* insuper*
+expr ::= expr0 (select | slice | slice2 | apply | binsuffix | objextend | insuper)*
 select ::= DOT IDENTIFIER
 slice ::= L_BRACKET expr ( COLON ( expr ( COLON ( expr )? )? )? )? R_BRACKET
 slice2 ::= L_BRACKET COLON ( expr ( COLON ( expr )? )? )? R_BRACKET
@@ -35,8 +35,12 @@ apply ::= L_PAREN ( args )? R_PAREN
 binsuffix ::= binaryop expr
 objextend ::= L_CURLY objinside R_CURLY
 insuper ::= IN SUPER
-expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR | SINGLE_QUOTED_STRING
-|   DOUBLE_QUOTED_STRING | VERBATIM_SINGLE_QUOTED_STRING | VERBATIM_DOUBLE_QUOTED_STRING | NUMBER
+expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
+|   SINGLE_QUOTED_STRING
+|   DOUBLE_QUOTED_STRING
+|   VERBATIM_SINGLE_QUOTED_STRING
+|   VERBATIM_DOUBLE_QUOTED_STRING
+|   NUMBER
 |	obj
 |	arr
 |	arrcomp
