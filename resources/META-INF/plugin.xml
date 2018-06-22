@@ -30,6 +30,7 @@
     <lang.commenter language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCommenter"/>
     <completion.contributor language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCompletionContributor"/>
     <lang.foldingBuilder language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetFoldingBuilder"/>
+    <psi.referenceContributor implementation="com.jsonnetplugin.JsonnetReferenceContributor"/>
   </extensions>
 
   <actions>

@@ -17,6 +17,9 @@
     // "/*" ([^*]|\*+[^*/])* (\*+"/")?
     BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
   ]
+
+//  psiImplUtilClass="com.jsonnetplugin.psi.impl.JsonnetPsiImplUtil"
+
 }
 
 //jsonnetFile ::= item_*
@@ -89,5 +92,9 @@ params	::=	param (COMMA param)* ( COMMA )?
 
 binaryop	::=	ASTERISK | SLASH | PERCENT | PLUS | MINUS | DOUBLE_LESS | DOUBLE_GREATER | LESS_THAN | LESS_EQUAL | GREATER_THAN | GREATER_EQUAL | DOUBLE_EQUAL | NOT_EQUAL | IN | AND | CARAT | BAR | DOUBLE_AND | DOUBLE_BAR
 unaryop	::=	MINUS | PLUS | EXCLAMATION | TILDE
-importop ::= IMPORT (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)
+importop ::= (IMPORT (DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING)) {
+    mixin="com.jsonnetplugin.psi.impl.JsonnetNamedElementImpl"
+    implements="com.jsonnetplugin.psi.JsonnetNamedElement"
+    //methods=[getKey getValue getName setName getNameIdentifier]
+}
 outerlocal ::= LOCAL bind ( COMMA bind )* SEMICOLON expr
