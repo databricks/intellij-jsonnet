@@ -32,7 +32,8 @@ public class JsonnetReference extends PsiReferenceBase<PsiElement> implements Ps
 
         if (vf != null){
             PsiFile myPsiFile = PsiManager.getInstance(myElement.getProject()).findFile(vf);
-            return new ResolveResult[]{new PsiElementResolveResult(myPsiFile)};
+            if (myPsiFile != null) return new ResolveResult[]{new PsiElementResolveResult(myPsiFile)};
+            else return new ResolveResult[]{};
         }else{
             return new ResolveResult[]{};
 
