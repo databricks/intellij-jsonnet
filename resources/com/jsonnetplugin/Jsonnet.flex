@@ -22,8 +22,10 @@ WHITE_SPACE=\s+
 
 LINE_COMMENT="//"|"#".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
-DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
-SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
+DOUBLE_QUOTED_STRING=\"([^\\\"]|\\[^\r\n])*\"?
+SINGLE_QUOTED_STRING='([^\\']|\\[^\r\n])*'?
+VERBATIM_DOUBLE_QUOTED_STRING=@\"([^\\\"]|\"\")*\"?
+VERBATIM_SINGLE_QUOTED_STRING=@'([^\\']|'')*'?
 NUMBER=(-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?)|Infinity|-Infinity|NaN
 IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 
@@ -85,6 +87,8 @@ IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
+  {VERBATIM_DOUBLE_QUOTED_STRING} { return VERBATIM_DOUBLE_QUOTED_STRING; }
+  {VERBATIM_SINGLE_QUOTED_STRING} { return VERBATIM_SINGLE_QUOTED_STRING; }
   {NUMBER}                    { return NUMBER; }
   {IDENTIFIER}                { return IDENTIFIER; }
 
