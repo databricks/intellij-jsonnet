@@ -20,6 +20,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jsonnetplugin.JsonnetIdentifierReference.isFunctionExpr;
+
 public class JsonnetCompletionContributor extends CompletionContributor {
     public JsonnetCompletionContributor() {
         extend(CompletionType.BASIC,
@@ -38,6 +40,11 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 List<JsonnetBind> binds = JsonnetIdentifierReference.findBindInOuterLocal((JsonnetOuterlocal) element);
                                 for (JsonnetBind b: binds) {
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
+                                }
+                            } else if (element instanceof JsonnetExpr0 && isFunctionExpr((JsonnetExpr0) element)) {
+                                List<JsonnetIdentifier0> identifiers = JsonnetIdentifierReference.findIdentifierFromFunctionExpr0((JsonnetExpr0) element);
+                                for (JsonnetIdentifier0 i: identifiers) {
+                                    resultSet.addElement(LookupElementBuilder.create(i.getText()));
                                 }
                             }
                             element = element.getParent();
