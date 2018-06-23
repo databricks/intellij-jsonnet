@@ -42,7 +42,6 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                     }
                 }
             }else if (element instanceof JsonnetObjinside) {
-                System.out.println("element instanceof JsonnetObjinside");
                 List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
                 for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
                     if (m.getObjlocal() != null){
@@ -50,11 +49,18 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                     }
                 }
                 for (JsonnetObjlocal local: locals) {
-                    System.out.println("local " + local);
                     JsonnetBind b = local.getBind();
-                    System.out.println("b " + b);
                     if (identifier.equals(findIdentifierFromBind(b))) {
                         results.add(new PsiElementResolveResult(b));
+                        return results.toArray(new ResolveResult[results.size()]);
+                    }
+                }
+            }else if (element.getParent() instanceof JsonnetBind &&
+                    ((JsonnetBind)element.getParent()).getExpr() == element){
+                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams());
+                for(JsonnetIdentifier0 ident: idents){
+                    if (identifier.equals(ident.getText())) {
+                        results.add(new PsiElementResolveResult(ident));
                         return results.toArray(new ResolveResult[results.size()]);
                     }
                 }
@@ -95,11 +101,17 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
     }
 
     public static List<JsonnetIdentifier0> findIdentifierFromFunctionExpr0(JsonnetExpr0 element) {
-        List<JsonnetIdentifier0> ret = new ArrayList<>();
+
         PsiElement params = null;
         for (PsiElement c: element.getChildren()) {
             if (c instanceof JsonnetParams) params = c;
         }
+
+        return findIdentifierFromParams((JsonnetParams)params);
+    }
+
+    public static List<JsonnetIdentifier0> findIdentifierFromParams(JsonnetParams params){
+        List<JsonnetIdentifier0> ret = new ArrayList<>();
         if (params == null) return ret;
         for (PsiElement child: params.getChildren()) {
             if (child instanceof JsonnetParam) {
@@ -110,7 +122,6 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
         }
         return ret;
     }
-
     public static boolean isFunctionExpr(JsonnetExpr0 element) {
         if (element.getFirstChild() instanceof LeafPsiElement) {
             return ((LeafPsiElement) element.getFirstChild()).getElementType().equals(JsonnetTypes.FUNCTION);

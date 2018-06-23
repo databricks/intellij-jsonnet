@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jsonnetplugin.JsonnetIdentifierReference.findIdentifierFromParams;
 import static com.jsonnetplugin.JsonnetIdentifierReference.isFunctionExpr;
 
 public class JsonnetCompletionContributor extends CompletionContributor {
@@ -56,6 +57,12 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 for (JsonnetObjlocal local: locals) {
                                     JsonnetBind b = local.getBind();
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
+                                }
+                            }else if (element.getParent() instanceof JsonnetBind &&
+                                    ((JsonnetBind)element.getParent()).getExpr() == element){
+                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams());
+                                for(JsonnetIdentifier0 ident: idents){
+                                    resultSet.addElement(LookupElementBuilder.create(ident.getText()));
                                 }
                             }
                             element = element.getParent();
