@@ -64,6 +64,15 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                         return results.toArray(new ResolveResult[results.size()]);
                     }
                 }
+            }else if (element.getParent() instanceof JsonnetField &&
+                    ((JsonnetField)element.getParent()).getExpr() == element){
+                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField)element.getParent()).getParams());
+                for(JsonnetIdentifier0 ident: idents){
+                    if (identifier.equals(ident.getText())) {
+                        results.add(new PsiElementResolveResult(ident));
+                        return results.toArray(new ResolveResult[results.size()]);
+                    }
+                }
             }
             element = element.getParent();
         }

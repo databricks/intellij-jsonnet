@@ -64,6 +64,12 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 for(JsonnetIdentifier0 ident: idents){
                                     resultSet.addElement(LookupElementBuilder.create(ident.getText()));
                                 }
+                            }else if (element.getParent() instanceof JsonnetField &&
+                                    ((JsonnetField)element.getParent()).getExpr() == element){
+                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField)element.getParent()).getParams());
+                                for(JsonnetIdentifier0 ident: idents){
+                                    resultSet.addElement(LookupElementBuilder.create(ident.getText()));
+                                }
                             }
                             element = element.getParent();
                         }

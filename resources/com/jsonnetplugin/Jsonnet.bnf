@@ -69,7 +69,7 @@ objinside	::=	member ( COMMA member )* ( COMMA )?
 member	::=	objlocal | assertStmt | field
 
 field ::=	fieldname ( PLUS )? h expr
-|	fieldname L_PAREN ( params )* R_PAREN h expr
+|	fieldname L_PAREN ( params )? R_PAREN h expr
 
 h ::=	COLON | COLON2 | COLON3
 objlocal	::=	LOCAL bind
