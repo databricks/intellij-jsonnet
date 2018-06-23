@@ -2,7 +2,11 @@
   <id>com.databricks</id>
   <name>Jsonnet</name>
   <version>0.1</version>
-  <vendor email="haoyi.li@databricks.com" url="https://databricks.com/">Databricks</vendor>
+  <vendor email="haoyi.li@databricks.com,andrewchen@databricks.com,haolan.ye@databricks.com,sid.murching@databricks.com"
+          url="https://databricks.com/"
+  >
+    Databricks
+  </vendor>
 
   <description><![CDATA[
       A plugin to support the Jsonnet JSON templating language (https://jsonnet.org/)
