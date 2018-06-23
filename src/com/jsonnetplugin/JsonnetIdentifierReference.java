@@ -41,6 +41,23 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                         return results.toArray(new ResolveResult[results.size()]);
                     }
                 }
+            }else if (element instanceof JsonnetObjinside) {
+                System.out.println("element instanceof JsonnetObjinside");
+                List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
+                for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
+                    if (m.getObjlocal() != null){
+                        locals.add(m.getObjlocal());
+                    }
+                }
+                for (JsonnetObjlocal local: locals) {
+                    System.out.println("local " + local);
+                    JsonnetBind b = local.getBind();
+                    System.out.println("b " + b);
+                    if (identifier.equals(findIdentifierFromBind(b))) {
+                        results.add(new PsiElementResolveResult(b));
+                        return results.toArray(new ResolveResult[results.size()]);
+                    }
+                }
             }
             element = element.getParent();
         }

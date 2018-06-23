@@ -46,6 +46,17 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 for (JsonnetIdentifier0 i: identifiers) {
                                     resultSet.addElement(LookupElementBuilder.create(i.getText()));
                                 }
+                            }else if (element instanceof JsonnetObjinside) {
+                                List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
+                                for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
+                                    if (m.getObjlocal() != null){
+                                        locals.add(m.getObjlocal());
+                                    }
+                                }
+                                for (JsonnetObjlocal local: locals) {
+                                    JsonnetBind b = local.getBind();
+                                    resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
+                                }
                             }
                             element = element.getParent();
                         }
