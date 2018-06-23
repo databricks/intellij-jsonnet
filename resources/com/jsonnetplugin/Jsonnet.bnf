@@ -63,8 +63,8 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 obj ::= L_CURLY objinside? R_CURLY
 arr ::= L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
 arrcomp ::= L_BRACKET expr COMMA? forspec compspec R_BRACKET
-objinside	::=	member ( COMMA member )* ( COMMA )?
-|	( objlocal COMMA )* L_BRACKET expr R_BRACKET COLON expr ( ( COMMA objlocal )* ( COMMA )? )? forspec compspec
+objinside	::=	( objlocal COMMA )* L_BRACKET expr R_BRACKET COLON expr ( ( COMMA objlocal )* ( COMMA )? )? forspec compspec
+|	member ( COMMA member )* ( COMMA )?
 
 member	::=	objlocal | assertStmt | field
 
