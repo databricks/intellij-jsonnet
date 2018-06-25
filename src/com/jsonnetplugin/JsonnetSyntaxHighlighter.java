@@ -83,6 +83,10 @@ public class JsonnetSyntaxHighlighter extends SyntaxHighlighterBase {
             return VALUE_KEYS;
         } else if (tokenType.equals(JsonnetTypes.DOUBLE_QUOTED_STRING)) {
             return VALUE_KEYS;
+        } else if (tokenType.equals(JsonnetTypes.VERBATIM_DOUBLE_QUOTED_STRING)) {
+            return VALUE_KEYS;
+        } else if (tokenType.equals(JsonnetTypes.VERBATIM_SINGLE_QUOTED_STRING)) {
+            return VALUE_KEYS;
         } else if (tokenType.equals(JsonnetTypes.PARAMS)) {
             return PARAM_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {

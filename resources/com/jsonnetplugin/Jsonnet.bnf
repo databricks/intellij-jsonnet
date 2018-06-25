@@ -30,10 +30,10 @@
 
 
 root ::= expr
-expr ::= expr0 (select | slice | slice2 | apply | binsuffix | objextend | insuper)*
+expr ::= expr0 (select | slice | apply | binsuffix | objextend | insuper)*
 select ::= DOT IDENTIFIER0
-slice ::= L_BRACKET expr ( COLON ( expr ( COLON ( expr )? )? )? )? R_BRACKET
-slice2 ::= L_BRACKET COLON ( expr ( COLON ( expr )? )? )? R_BRACKET
+slice ::= L_BRACKET expr? slicesuffix? R_BRACKET
+slicesuffix ::= COLON ( expr? ( COLON expr? )? )? | COLON2 expr?
 apply ::= L_PAREN ( args )? R_PAREN
 binsuffix ::= binaryop expr
 objextend ::= L_CURLY objinside R_CURLY
