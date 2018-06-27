@@ -20,11 +20,8 @@
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="172.0"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
   <depends>com.intellij.modules.lang</depends>
-  -->
+
   <extensions defaultExtensionNs="com.intellij">
     <lang.parserDefinition language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetParserDefinition"/>
     <lang.syntaxHighlighterFactory language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetSyntaxHighlighterFactory"/>
