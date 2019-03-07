@@ -42,7 +42,8 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                     }
                 }
             }else if (element instanceof JsonnetObjinside) {
-                List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
+
+                List<JsonnetObjlocal> locals = new ArrayList<>(((JsonnetObjinside)element).getObjlocalList());
                 for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
                     if (m.getObjlocal() != null){
                         locals.add(m.getObjlocal());
@@ -57,7 +58,7 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                 }
             }else if (element.getParent() instanceof JsonnetBind &&
                     ((JsonnetBind)element.getParent()).getExpr() == element){
-                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams());
+                List<JsonnetIdentifier0> idents = new ArrayList<>(findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams()));
                 for(JsonnetIdentifier0 ident: idents){
                     if (identifier.equals(ident.getText())) {
                         results.add(new PsiElementResolveResult(ident));
@@ -66,7 +67,7 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                 }
             }else if (element.getParent() instanceof JsonnetField &&
                     ((JsonnetField)element.getParent()).getExpr() == element){
-                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField)element.getParent()).getParams());
+                List<JsonnetIdentifier0> idents = new ArrayList<>(findIdentifierFromParams(((JsonnetField)element.getParent()).getParams()));
                 for(JsonnetIdentifier0 ident: idents){
                     if (identifier.equals(ident.getText())) {
                         results.add(new PsiElementResolveResult(ident));

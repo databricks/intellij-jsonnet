@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.databricks</id>
   <name>Jsonnet</name>
-  <version>0.2</version>
+  <version>0.4</version>
   <vendor email="haoyi.li@databricks.com,andrewchen@databricks.com,haolan.ye@databricks.com,sid.murching@databricks.com"
           url="https://databricks.com/"
   >
