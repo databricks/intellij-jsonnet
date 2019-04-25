@@ -27,7 +27,6 @@ public class JsonnetFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        // TODO: .TEMPLATE files???
         return "jsonnet";
     }
 
