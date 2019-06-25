@@ -19,8 +19,12 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
         String importText = this.getElement().getLastChild().getText();
-        if (importText.startsWith("\"")) importText = importText.substring(1);
-        if (importText.endsWith("\"")) importText = importText.substring(0, importText.length() - 1);
+        if (importText.startsWith("'") || importText.startsWith("\"")) {
+            importText = importText.substring(1);
+        }
+        if (importText.endsWith("'") || importText.endsWith("\"")) {
+            importText = importText.substring(0, importText.length() - 1);
+        }
 
         VirtualFile vf = getElement()
                 .getContainingFile()
