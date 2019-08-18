@@ -8,13 +8,13 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import com.jsonnetplugin.psi.*;
-import gherkin.deps.com.google.gson.JsonObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonnetCompletionContributor extends CompletionContributor {
@@ -29,15 +29,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
                         while (element != null) {
                             if (element instanceof JsonnetSelect) {
-                                PsiElement resolved = getResolvedElement((JsonnetSelect) element);
-                                if (resolved instanceof JsonnetBind) {
-                                    JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
-                                    if (expr.getExpr0().getFirstChild() instanceof JsonnetObj) {
-                                        JsonnetObj obj = (JsonnetObj) expr.getExpr0().getFirstChild();
-                                        addMembersFromObject(obj, resultSet);
-                                    }
-                                } else if (resolved instanceof JsonnetObj) {
-                                    addMembersFromObject((JsonnetObj) resolved, resultSet);
+                                JsonnetObj resolved = getResolvedObject((JsonnetSelect) element);
+                                if (resolved != null) {
+                                    addMembersFromObject(resolved, resultSet);
                                 }
                                 return;
                             } else if (element instanceof JsonnetOuterlocal) {
@@ -112,35 +106,75 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     /**
      * x.y.z.(dummy token)
      */
-    private static PsiElement getResolvedElement(JsonnetSelect elem) {
+    private static JsonnetObj getResolvedObject(JsonnetSelect elem) {
         JsonnetExpr expr = (JsonnetExpr) elem.getParent();
-        if (expr.getSelectList().size() == 1) {
-            return resolveExpr0(expr.getExpr0());
-        } else {
-            JsonnetSelect select = expr.getSelectList().get(expr.getSelectList().size() - 2);
-            PsiElement result = select.getIdentifier0();
-            if (result == null) return null;
-            PsiReference reference = result.getReference();
-            return reference.resolve();
+
+        JsonnetExpr0 first = expr.getExpr0();
+        List<JsonnetIdentifier0> selectList = new ArrayList<>();
+        for (int i = 0; i < expr.getSelectList().size() - 1; i++) {
+            JsonnetSelect select = expr.getSelectList().get(i);
+            selectList.add(select.getIdentifier0());
         }
+
+        JsonnetObj curr = resolveObject(first);
+
+        for (JsonnetIdentifier0 select : selectList) {
+            if (curr == null) return null;
+
+            JsonnetExpr fieldValue = getField(curr, select.getText());
+            if (fieldValue == null) return null;
+
+            if (fieldValue.getExpr0().getObj() != null) {
+                curr = fieldValue.getExpr0().getObj();
+            } else if (fieldValue.getExpr0().getIdentifier0() != null) {
+                curr = resolveFromIdentifier(fieldValue.getExpr0().getIdentifier0());
+            } else {
+                curr = null;
+            }
+        }
+
+        return curr;
     }
 
-    private static PsiElement resolveExpr0(JsonnetExpr0 expr0) {
+    private static JsonnetObj resolveFromIdentifier(JsonnetIdentifier0 id) {
+        PsiElement resolved = id.getReference().resolve();
+        if (resolved instanceof JsonnetBind) {
+            JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
+            if (expr.getExpr0().getFirstChild() instanceof JsonnetObj) {
+                return (JsonnetObj) expr.getExpr0().getFirstChild();
+            }
+        }
+        return null;
+    }
+
+    private static JsonnetExpr getField(JsonnetObj obj, String name) {
+        List<JsonnetMember> memberList = obj.getObjinside().getMemberList();
+        for (JsonnetMember member : memberList) {
+            if (member.getField() != null) {
+                String fieldName = member.getField().getFieldname().getIdentifier0().getText();
+                if (fieldName.equals(name)) {
+                    return member.getField().getExpr();
+                }
+            }
+        }
+        return null;
+    }
+
+    private static JsonnetObj resolveObject(JsonnetExpr0 expr0) {
         if (expr0.getText().equals("self")) {
             return findOuterObject(expr0);
         }
-        PsiElement result = expr0.getIdentifier0();
+        JsonnetIdentifier0 result = expr0.getIdentifier0();
         if (result == null) return null;
-        PsiReference reference = result.getReference();
-        return reference.resolve();
+        return resolveFromIdentifier(result);
     }
 
-    private static PsiElement findOuterObject(PsiElement elem) {
+    private static JsonnetObj findOuterObject(PsiElement elem) {
         PsiElement curr = elem;
         while (curr != null && !(curr instanceof JsonnetObj)) {
             curr = curr.getParent();
         }
-        return curr;
+        return (JsonnetObj) curr;
     }
 
     private static boolean checkIfImport(PsiElement position) {
