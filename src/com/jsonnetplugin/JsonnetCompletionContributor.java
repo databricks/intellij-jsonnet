@@ -1,14 +1,10 @@
 package com.jsonnetplugin;
 
 import com.intellij.codeInsight.completion.*;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.ResolveResult;
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.ProcessingContext;
 import com.jsonnetplugin.psi.*;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +13,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.jsonnetplugin.JsonnetIdentifierReference.findIdentifierFromParams;
@@ -31,13 +27,28 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                     public void addCompletions(@NotNull CompletionParameters parameters,
                                                ProcessingContext context,
                                                @NotNull CompletionResultSet resultSet) {
-                        resultSet.addElement(LookupElementBuilder.create("null"));
-                        resultSet.addElement(LookupElementBuilder.create("true"));
-                        resultSet.addElement(LookupElementBuilder.create("false"));
-                        resultSet.addElement(LookupElementBuilder.create("local"));
                         PsiElement element = parameters.getPosition().getOriginalElement();
+
                         while (element != null) {
-                            if (element instanceof JsonnetOuterlocal) {
+                            if (element instanceof JsonnetSelect) {
+                                JsonnetIdentifier0 id = getPrevIdentifier((JsonnetSelect) element);
+                                PsiReference reference = id.getReference();
+                                PsiElement resolvedId = reference.resolve();
+                                if (resolvedId instanceof JsonnetBind) {
+                                    JsonnetExpr expr = ((JsonnetBind) resolvedId).getExpr();
+                                    if (expr.getExpr0().getFirstChild() instanceof JsonnetObj) {
+                                        JsonnetObj obj = (JsonnetObj) expr.getExpr0().getFirstChild();
+                                        List<JsonnetMember> memberList = obj.getObjinside().getMemberList();
+                                        for (JsonnetMember member : memberList) {
+                                            if (member.getField() != null) {
+                                                String fieldName = member.getField().getFieldname().getIdentifier0().getText();
+                                                resultSet.addElement(LookupElementBuilder.create(fieldName));
+                                            }
+                                        }
+                                    }
+                                }
+                                return;
+                            } else if (element instanceof JsonnetOuterlocal) {
                                 List<JsonnetBind> binds = JsonnetIdentifierReference.findBindInOuterLocal((JsonnetOuterlocal) element);
                                 for (JsonnetBind b: binds) {
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
@@ -73,6 +84,11 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                             }
                             element = element.getParent();
                         }
+
+                        resultSet.addElement(LookupElementBuilder.create("null"));
+                        resultSet.addElement(LookupElementBuilder.create("true"));
+                        resultSet.addElement(LookupElementBuilder.create("false"));
+                        resultSet.addElement(LookupElementBuilder.create("local"));
                     }
                 }
         );
@@ -89,6 +105,21 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                     }
                 }
         );
+    }
+    
+    /**
+     * x.y.z.(dummy token)
+     */
+    private static JsonnetIdentifier0 getPrevIdentifier(JsonnetSelect elem) {
+        JsonnetExpr expr = (JsonnetExpr) elem.getParent();
+        if (expr.getSelectList().size() == 1) {
+            if (expr.getExpr0().getIdentifier0() != null) {
+                return expr.getExpr0().getIdentifier0();
+            }
+            return null;
+        }
+        JsonnetSelect select = expr.getSelectList().get(expr.getSelectList().size() - 2);
+        return select.getIdentifier0();
     }
 
     private static boolean checkIfImport(PsiElement position) {

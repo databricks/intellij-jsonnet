@@ -14,13 +14,16 @@ public abstract class JsonnetNamedElementImpl extends ASTWrapperPsiElement imple
 
     @Override
     public PsiReference getReference() {
-        return super.getReference();
+        PsiReference[] referencesFromProviders = ReferenceProvidersRegistry.getReferencesFromProviders(this);
+        if (referencesFromProviders.length == 1)
+            return referencesFromProviders[0];
+        else
+            return null;
     }
 
     @NotNull
     @Override
     public PsiReference[] getReferences() {
-        PsiReference[] x = ReferenceProvidersRegistry.getReferencesFromProviders(this);
-        return x;
+        return ReferenceProvidersRegistry.getReferencesFromProviders(this);
     }
 }
