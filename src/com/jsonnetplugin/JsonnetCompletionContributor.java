@@ -140,8 +140,15 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         PsiElement resolved = id.getReference().resolve();
         if (resolved instanceof JsonnetBind) {
             JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
-            if (expr.getExpr0().getFirstChild() instanceof JsonnetObj) {
-                return (JsonnetObj) expr.getExpr0().getFirstChild();
+            if (expr.getExpr0().getObj() != null) {
+                return expr.getExpr0().getObj();
+            } else if (expr.getExpr0().getImportop() != null) {
+                JsonnetImportop importop = expr.getExpr0().getImportop();
+                PsiFile file = (PsiFile) importop.getReference().resolve();
+                JsonnetExpr root = (JsonnetExpr) file.getFirstChild();
+                if (root.getExpr0().getObj() != null) {
+                    return root.getExpr0().getObj();
+                }
             }
         }
         return null;
@@ -162,6 +169,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
     private static JsonnetObj resolveObject(JsonnetExpr0 expr0) {
         if (expr0.getText().equals("self")) {
+            return findSelfObject(expr0);
+        }
+        if (expr0.getText().equals("$")) {
             return findOuterObject(expr0);
         }
         JsonnetIdentifier0 result = expr0.getIdentifier0();
@@ -169,12 +179,24 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         return resolveFromIdentifier(result);
     }
 
-    private static JsonnetObj findOuterObject(PsiElement elem) {
+    private static JsonnetObj findSelfObject(PsiElement elem) {
         PsiElement curr = elem;
         while (curr != null && !(curr instanceof JsonnetObj)) {
             curr = curr.getParent();
         }
         return (JsonnetObj) curr;
+    }
+
+    private static JsonnetObj findOuterObject(PsiElement elem) {
+        JsonnetObj obj = null;
+        PsiElement curr = elem;
+        while (curr != null) {
+            if (curr instanceof JsonnetObj) {
+                obj = (JsonnetObj) curr;
+            }
+            curr = curr.getParent();
+        }
+        return obj;
     }
 
     private static boolean checkIfImport(PsiElement position) {
