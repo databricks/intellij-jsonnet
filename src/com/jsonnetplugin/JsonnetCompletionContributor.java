@@ -29,7 +29,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
                         while (element != null) {
                             if (element instanceof JsonnetSelect) {
-                                JsonnetObj resolved = getResolvedObject((JsonnetSelect) element);
+                                JsonnetObj resolved = getResolvedObject((JsonnetExpr) element.getParent());
                                 if (resolved != null) {
                                     addMembersFromObject(resolved, resultSet);
                                 }
@@ -104,16 +104,16 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     /**
-     * x.y.z.(dummy token)
+     * Resolves an expression of the form x.y.z.(dummy token) to an instance of JsonnetObj
+     * if possible, otherwise returns null
      */
-    private static JsonnetObj getResolvedObject(JsonnetSelect elem) {
-        JsonnetExpr expr = (JsonnetExpr) elem.getParent();
-
+    private static JsonnetObj getResolvedObject(JsonnetExpr expr) {
         JsonnetExpr0 first = expr.getExpr0();
         List<JsonnetIdentifier0> selectList = new ArrayList<>();
-        for (int i = 0; i < expr.getSelectList().size() - 1; i++) {
-            JsonnetSelect select = expr.getSelectList().get(i);
-            selectList.add(select.getIdentifier0());
+        for (JsonnetSelect select : expr.getSelectList()) {
+            if (!select.getIdentifier0().getText().equals(Constants.INTELLIJ_RULES)) {
+                selectList.add(select.getIdentifier0());
+            }
         }
 
         JsonnetObj curr = resolveObject(first);
@@ -124,7 +124,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             JsonnetExpr fieldValue = getField(curr, select.getText());
             if (fieldValue == null) return null;
 
-            if (fieldValue.getExpr0().getObj() != null) {
+            if (!fieldValue.getSelectList().isEmpty()) {
+                curr = getResolvedObject(fieldValue);
+            } else if (fieldValue.getExpr0().getObj() != null) {
                 curr = fieldValue.getExpr0().getObj();
             } else if (fieldValue.getExpr0().getIdentifier0() != null) {
                 curr = resolveFromIdentifier(fieldValue.getExpr0().getIdentifier0());
