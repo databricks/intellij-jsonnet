@@ -44,7 +44,7 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
             }else if (element instanceof JsonnetObjinside) {
 
                 List<JsonnetObjlocal> locals = new ArrayList<>(((JsonnetObjinside)element).getObjlocalList());
-                for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
+                for (JsonnetMember m: ((JsonnetObjinside)element).getMembers().getMemberList()){
                     if (m.getObjlocal() != null){
                         locals.add(m.getObjlocal());
                     }
