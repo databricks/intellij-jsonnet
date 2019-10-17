@@ -33,6 +33,8 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 if (resolved != null) {
                                     addMembersFromObject(resolved, resultSet);
                                 }
+                                // Do not show suggestions from outer space if the element
+                                // before the dot can be resolved. We are only interested in the fields.
                                 return;
                             } else if (element instanceof JsonnetOuterlocal) {
                                 List<JsonnetBind> binds = JsonnetIdentifierReference.findBindInOuterLocal((JsonnetOuterlocal) element);
@@ -147,6 +149,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             } else if (expr.getExpr0().getImportop() != null) {
                 JsonnetImportop importop = expr.getExpr0().getImportop();
                 PsiFile file = (PsiFile) importop.getReference().resolve();
+                if (file == null) { // The imported file does not exist
+                    return null;
+                }
                 JsonnetExpr root = (JsonnetExpr) file.getFirstChild();
                 if (root.getExpr0().getObj() != null) {
                     return root.getExpr0().getObj();
