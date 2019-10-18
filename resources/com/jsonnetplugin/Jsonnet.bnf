@@ -64,9 +64,13 @@ obj ::= L_CURLY objinside? R_CURLY
 arr ::= L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
 arrcomp ::= L_BRACKET expr COMMA? forspec compspec R_BRACKET
 objinside	::=	( objlocal COMMA )* L_BRACKET expr R_BRACKET COLON expr ( ( COMMA objlocal )* ( COMMA )? )? forspec compspec
-|	member ( COMMA member )* ( COMMA )?
+|	members
 
-member	::=	objlocal | assertStmt | field
+members ::= member ( COMMA member )* ( COMMA )? { recoverWhile = member_list_recover }
+private member_list_recover ::= !('}')
+
+member	::=	objlocal | assertStmt | field { recoverWhile = member_recover }
+private member_recover ::= !(',' | '}')
 
 field ::=	fieldname ( PLUS )? h expr
 |	fieldname L_PAREN ( params )? R_PAREN h expr

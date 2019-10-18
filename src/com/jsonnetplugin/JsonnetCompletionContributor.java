@@ -49,7 +49,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 }
                             }else if (element instanceof JsonnetObjinside) {
                                 List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
-                                for (JsonnetMember m: ((JsonnetObjinside)element).getMemberList()){
+                                for (JsonnetMember m: ((JsonnetObjinside)element).getMembers().getMemberList()){
                                     if (m.getObjlocal() != null){
                                         locals.add(m.getObjlocal());
                                     }
