@@ -23,7 +23,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                 PlatformPatterns.psiElement(JsonnetTypes.IDENTIFIER).withLanguage(JsonnetLanguage.INSTANCE),
                 new CompletionProvider<CompletionParameters>() {
                     public void addCompletions(@NotNull CompletionParameters parameters,
-                                               ProcessingContext context,
+                                               @NotNull ProcessingContext context,
                                                @NotNull CompletionResultSet resultSet) {
                         PsiElement element = parameters.getPosition().getOriginalElement();
 
@@ -84,7 +84,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                 PlatformPatterns.psiElement(JsonnetTypes.DOUBLE_QUOTED_STRING).withLanguage(JsonnetLanguage.INSTANCE),
                 new CompletionProvider<CompletionParameters>() {
                     public void addCompletions(@NotNull CompletionParameters parameters,
-                                               ProcessingContext context,
+                                               @NotNull ProcessingContext context,
                                                @NotNull CompletionResultSet resultSet) {
                         if (checkIfImport(parameters.getPosition())) {
                             String text = parameters.getPosition().getText();
@@ -96,7 +96,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     private static void addMembersFromObject(JsonnetObj obj, CompletionResultSet resultSet) {
-        List<JsonnetMember> memberList = obj.getObjinside().getMemberList();
+        if (obj.getObjinside() == null || obj.getObjinside().getMembers() == null) return;
+
+        List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
             if (member.getField() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
@@ -141,6 +143,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     private static JsonnetObj resolveFromIdentifier(JsonnetIdentifier0 id) {
+        if (id.getReference() == null) return null;
         PsiElement resolved = id.getReference().resolve();
         if (resolved instanceof JsonnetBind) {
             JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
@@ -148,6 +151,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                 return expr.getExpr0().getObj();
             } else if (expr.getExpr0().getImportop() != null) {
                 JsonnetImportop importop = expr.getExpr0().getImportop();
+                if (importop.getReference() == null) {
+                    return null;
+                }
                 PsiFile file = (PsiFile) importop.getReference().resolve();
                 if (file == null) { // The imported file does not exist
                     return null;
@@ -162,7 +168,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     private static JsonnetExpr getField(JsonnetObj obj, String name) {
-        List<JsonnetMember> memberList = obj.getObjinside().getMemberList();
+        if (obj.getObjinside() == null || obj.getObjinside().getMembers() == null) return null;
+
+        List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
             if (member.getField() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
