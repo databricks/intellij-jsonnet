@@ -11,7 +11,6 @@ import com.jsonnetplugin.psi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -46,24 +45,27 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 for (JsonnetIdentifier0 i: identifiers) {
                                     resultSet.addElement(LookupElementBuilder.create(i.getText()));
                                 }
-                            }else if (element instanceof JsonnetObjinside) {
-                                List<JsonnetObjlocal> locals = ((JsonnetObjinside)element).getObjlocalList();
-                                for (JsonnetMember m: ((JsonnetObjinside)element).getMembers().getMemberList()){
-                                    if (m.getObjlocal() != null){
-                                        locals.add(m.getObjlocal());
+                            } else if (element instanceof JsonnetObjinside) {
+                                List<JsonnetObjlocal> locals = ((JsonnetObjinside) element).getObjlocalList();
+                                JsonnetMembers members = ((JsonnetObjinside) element).getMembers();
+                                if (members != null) {
+                                    for (JsonnetMember m: members.getMemberList()){
+                                        if (m.getObjlocal() != null){
+                                            locals.add(m.getObjlocal());
+                                        }
                                     }
                                 }
                                 for (JsonnetObjlocal local: locals) {
                                     JsonnetBind b = local.getBind();
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
                                 }
-                            }else if (element.getParent() instanceof JsonnetBind &&
+                            } else if (element.getParent() instanceof JsonnetBind &&
                                     ((JsonnetBind)element.getParent()).getExpr() == element){
                                 List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams());
                                 for(JsonnetIdentifier0 ident: idents){
                                     resultSet.addElement(LookupElementBuilder.create(ident.getText()));
                                 }
-                            }else if (element.getParent() instanceof JsonnetField &&
+                            } else if (element.getParent() instanceof JsonnetField &&
                                     ((JsonnetField)element.getParent()).getExpr() == element){
                                 List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField)element.getParent()).getParams());
                                 for(JsonnetIdentifier0 ident: idents){
@@ -100,7 +102,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
         List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
-            if (member.getField() != null) {
+            if (member.getField() != null && member.getField().getFieldname().getIdentifier0() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
                 resultSet.addElement(LookupElementBuilder.create(fieldName));
             }
@@ -172,7 +174,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
         List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
-            if (member.getField() != null) {
+            if (member.getField() != null && member.getField().getFieldname().getIdentifier0() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
                 if (fieldName.equals(name)) {
                     return member.getField().getExpr();
@@ -249,15 +251,12 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
         CompletionResultSet replaceSet = set.withPrefixMatcher(stripped);
         if (prefixFile.isDirectory()) {
-            File[] files = prefixFile.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.startsWith(input);
+            File[] files = prefixFile.listFiles((dir, name) -> name.startsWith(input));
+            if (files != null) {
+                for (File f: files) {
+                    String result = stripped + f.getName().substring(input.length());
+                    replaceSet.addElement(LookupElementBuilder.create(result));
                 }
-            });
-            for (File f: files) {
-               String result = stripped + f.getName().substring(input.length());
-               replaceSet.addElement(LookupElementBuilder.create(result));
             }
         }
     }
