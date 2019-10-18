@@ -28,7 +28,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
                         while (element != null) {
                             if (element instanceof JsonnetSelect) {
-                                JsonnetObj resolved = getResolvedObject((JsonnetExpr) element.getParent());
+                                JsonnetObj resolved = resolveExprToObj((JsonnetExpr) element.getParent());
                                 if (resolved != null) {
                                     addMembersFromObject(resolved, resultSet);
                                 }
@@ -109,11 +109,20 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         }
     }
 
+    private static JsonnetObj resolveExprToObj(JsonnetExpr expr) {
+        return resolveExprToObj(expr, new ArrayList<>());
+    }
+
     /**
      * Resolves an expression of the form x.y.z.(dummy token) to an instance of JsonnetObj
-     * if possible, otherwise returns null
+     * if possible, otherwise returns null.
+     * To avoid infinite loops, we keep track of the list of expressions visited along this
+     * call chain.
      */
-    private static JsonnetObj getResolvedObject(JsonnetExpr expr) {
+    private static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited) {
+        if (visited.contains(expr)) return null; // In the future we can give a warning here
+        visited.add(expr);
+
         JsonnetExpr0 first = expr.getExpr0();
         List<JsonnetIdentifier0> selectList = new ArrayList<>();
         for (JsonnetSelect select : expr.getSelectList()) {
@@ -131,7 +140,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             if (fieldValue == null) return null;
 
             if (!fieldValue.getSelectList().isEmpty()) {
-                curr = getResolvedObject(fieldValue);
+                curr = resolveExprToObj(fieldValue, visited);
             } else if (fieldValue.getExpr0().getObj() != null) {
                 curr = fieldValue.getExpr0().getObj();
             } else if (fieldValue.getExpr0().getIdentifier0() != null) {
