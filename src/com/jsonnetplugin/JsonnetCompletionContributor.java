@@ -115,7 +115,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         JsonnetExpr0 first = expr.getExpr0();
         List<JsonnetIdentifier0> selectList = new ArrayList<>();
         for (JsonnetSelect select : expr.getSelectList()) {
-            if (!select.getIdentifier0().getText().equals(Constants.INTELLIJ_RULES)) {
+            if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES)) {
                 selectList.add(select.getIdentifier0());
             }
         }
