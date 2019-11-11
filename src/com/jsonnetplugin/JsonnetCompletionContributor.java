@@ -123,57 +123,45 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         if (visited.contains(expr)) return null; // In the future we can give a warning here
         visited.add(expr);
 
-        JsonnetExpr0 first = expr.getExpr0();
-        List<JsonnetIdentifier0> selectList = new ArrayList<>();
-        for (JsonnetSelect select : expr.getSelectList()) {
-            if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES)) {
-                selectList.add(select.getIdentifier0());
+        try {
+            JsonnetExpr0 first = expr.getExpr0();
+            List<JsonnetIdentifier0> selectList = new ArrayList<>();
+            for (JsonnetSelect select : expr.getSelectList()) {
+                if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES.trim())) {
+                    selectList.add(select.getIdentifier0());
+                }
             }
-        }
 
-        JsonnetObj curr = resolveObject(first);
+            JsonnetObj curr = resolveExpr0ToObj(first, visited);
+            for (JsonnetIdentifier0 select : selectList) {
+                if (curr == null) return null;
 
-        for (JsonnetIdentifier0 select : selectList) {
-            if (curr == null) return null;
+                JsonnetExpr fieldValue = getField(curr, select.getText());
+                if (fieldValue == null) return null;
 
-            JsonnetExpr fieldValue = getField(curr, select.getText());
-            if (fieldValue == null) return null;
-
-            if (!fieldValue.getSelectList().isEmpty()) {
-                curr = resolveExprToObj(fieldValue, visited);
-            } else if (fieldValue.getExpr0().getObj() != null) {
-                curr = fieldValue.getExpr0().getObj();
-            } else if (fieldValue.getExpr0().getIdentifier0() != null) {
-                curr = resolveFromIdentifier(fieldValue.getExpr0().getIdentifier0());
-            } else {
-                curr = null;
+                if (!fieldValue.getSelectList().isEmpty()) {
+                    curr = resolveExprToObj(fieldValue, visited);
+                } else if (fieldValue.getExpr0().getObj() != null) {
+                    curr = fieldValue.getExpr0().getObj();
+                } else if (fieldValue.getExpr0().getIdentifier0() != null) {
+                    curr = resolveIdentifierToObj(fieldValue.getExpr0().getIdentifier0(), visited);
+                } else {
+                    curr = null;
+                }
             }
-        }
 
-        return curr;
+            return curr;
+        }finally{
+            visited.remove(expr);
+        }
     }
 
-    private static JsonnetObj resolveFromIdentifier(JsonnetIdentifier0 id) {
+    private static JsonnetObj resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
         if (id.getReference() == null) return null;
         PsiElement resolved = id.getReference().resolve();
         if (resolved instanceof JsonnetBind) {
             JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
-            if (expr.getExpr0().getObj() != null) {
-                return expr.getExpr0().getObj();
-            } else if (expr.getExpr0().getImportop() != null) {
-                JsonnetImportop importop = expr.getExpr0().getImportop();
-                if (importop.getReference() == null) {
-                    return null;
-                }
-                PsiFile file = (PsiFile) importop.getReference().resolve();
-                if (file == null) { // The imported file does not exist
-                    return null;
-                }
-                JsonnetExpr root = (JsonnetExpr) file.getFirstChild();
-                if (root.getExpr0().getObj() != null) {
-                    return root.getExpr0().getObj();
-                }
-            }
+            return resolveExprToObj(expr, visited);
         }
         return null;
     }
@@ -193,16 +181,45 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         return null;
     }
 
-    private static JsonnetObj resolveObject(JsonnetExpr0 expr0) {
+    private static JsonnetObj resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
+        if (expr0.getExpr() != null){
+            return resolveExprToObj(expr0.getExpr(), visited);
+        }
+        if (expr0.getOuterlocal() != null){
+            return resolveExprToObj(expr0.getOuterlocal().getExpr(), visited);
+        }
+        if (expr0.getObj() != null){
+            return expr0.getObj();
+        }
         if (expr0.getText().equals("self")) {
             return findSelfObject(expr0);
         }
         if (expr0.getText().equals("$")) {
             return findOuterObject(expr0);
         }
-        JsonnetIdentifier0 result = expr0.getIdentifier0();
-        if (result == null) return null;
-        return resolveFromIdentifier(result);
+        if (expr0.getImportop() != null) {
+            JsonnetImportop importop = expr0.getImportop();
+            if (importop.getReference() == null) {
+                return null;
+            }
+            PsiFile file = (PsiFile) importop.getReference().resolve();
+            if (file == null) { // The imported file does not exist
+                return null;
+            }
+
+            for(PsiElement c: file.getChildren()){
+                // Apparently children can be line comments and other unwanted rubbish
+                if (c instanceof JsonnetExpr) {
+                    JsonnetObj res = resolveExprToObj((JsonnetExpr) c, visited);
+                    if (res != null) return res;
+                }
+            }
+        }
+        if (expr0.getIdentifier0() != null) {
+            return resolveIdentifierToObj(expr0.getIdentifier0(), visited);
+        }
+
+        return null;
     }
 
     private static JsonnetObj findSelfObject(PsiElement elem) {
