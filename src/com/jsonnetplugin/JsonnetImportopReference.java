@@ -28,6 +28,7 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
 
         VirtualFile vf = getElement()
                 .getContainingFile()
+                .getOriginalFile()
                 .getVirtualFile()
                 .getParent()
                 .findFileByRelativePath(importText);
