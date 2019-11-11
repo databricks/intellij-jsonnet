@@ -139,15 +139,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                 JsonnetExpr fieldValue = getField(curr, select.getText());
                 if (fieldValue == null) return null;
 
-                if (!fieldValue.getSelectList().isEmpty()) {
-                    curr = resolveExprToObj(fieldValue, visited);
-                } else if (fieldValue.getExpr0().getObj() != null) {
-                    curr = fieldValue.getExpr0().getObj();
-                } else if (fieldValue.getExpr0().getIdentifier0() != null) {
-                    curr = resolveIdentifierToObj(fieldValue.getExpr0().getIdentifier0(), visited);
-                } else {
-                    curr = null;
-                }
+                curr = resolveExprToObj(fieldValue, visited);
             }
 
             return curr;
