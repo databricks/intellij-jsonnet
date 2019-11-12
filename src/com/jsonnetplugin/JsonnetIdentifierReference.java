@@ -76,22 +76,33 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                 }
             }else if (element instanceof JsonnetObjinside) {
 
-                List<JsonnetObjlocal> locals = new ArrayList<>(((JsonnetObjinside)element).getObjlocalList());
-                JsonnetMembers members = ((JsonnetObjinside)element).getMembers();
-                if (members != null){
-                    for (JsonnetMember m: members.getMemberList()){
-                        if (m.getObjlocal() != null){
+                List<JsonnetObjlocal> locals = new ArrayList<>(((JsonnetObjinside) element).getObjlocalList());
+                JsonnetMembers members = ((JsonnetObjinside) element).getMembers();
+                if (members != null) {
+                    for (JsonnetMember m : members.getMemberList()) {
+                        if (m.getObjlocal() != null) {
                             locals.add(m.getObjlocal());
                         }
                     }
                 }
-                for (JsonnetObjlocal local: locals) {
+                for (JsonnetObjlocal local : locals) {
                     JsonnetBind b = local.getBind();
                     if (identifier.equals(findIdentifierFromBind(b))) {
                         results.add(new PsiElementResolveResult(b));
                         return results.toArray(new ResolveResult[results.size()]);
                     }
                 }
+
+                JsonnetCompspec comp = ((JsonnetObjinside) element).getCompspec();
+                JsonnetForspec forspec = ((JsonnetObjinside) element).getForspec();
+                if (findComprehensionBinding(results, identifier, comp, forspec))
+                    return results.toArray(new ResolveResult[results.size()]);
+
+            }else if (element instanceof JsonnetArrcomp){
+                JsonnetCompspec comp = ((JsonnetArrcomp) element).getCompspec();
+                JsonnetForspec forspec = ((JsonnetArrcomp) element).getForspec();
+                if (findComprehensionBinding(results, identifier, comp, forspec))
+                    return results.toArray(new ResolveResult[results.size()]);
             }else if (element.getParent() instanceof JsonnetBind &&
                     ((JsonnetBind)element.getParent()).getExpr() == element){
                 List<JsonnetIdentifier0> idents = new ArrayList<>(findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams()));
@@ -114,6 +125,25 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
             element = element.getParent();
         }
         return results.toArray(new ResolveResult[results.size()]);
+    }
+
+    private boolean findComprehensionBinding(List<ResolveResult> results, String identifier, JsonnetCompspec comp, JsonnetForspec forspec) {
+        if (comp != null) {
+
+            for (JsonnetForspec spec : comp.getForspecList()) {
+                if (identifier.equals(spec.getIdentifier0().getText())) {
+                    results.add(new PsiElementResolveResult(spec.getIdentifier0()));
+                    return true;
+                }
+            }
+        }
+        if (forspec != null) {
+            if (identifier.equals(forspec.getIdentifier0().getText())) {
+                results.add(new PsiElementResolveResult(forspec.getIdentifier0()));
+                return true;
+            }
+        }
+        return false;
     }
 
     @Nullable
