@@ -6,6 +6,7 @@ import com.intellij.util.ProcessingContext;
 import com.jsonnetplugin.psi.JsonnetIdentifier0;
 import com.jsonnetplugin.psi.JsonnetImportop;
 import com.jsonnetplugin.psi.JsonnetImportstrop;
+import com.jsonnetplugin.psi.JsonnetSelect;
 import org.jetbrains.annotations.NotNull;
 
 public class JsonnetReferenceContributor extends PsiReferenceContributor {
