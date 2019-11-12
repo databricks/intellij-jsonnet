@@ -117,7 +117,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
      * Resolves an expression of the form x.y.z.(dummy token) to an instance of JsonnetObj
      * if possible, otherwise returns null.
      * To avoid infinite loops, we keep track of the list of expressions visited along this
-     * call chain.
+     * call chain.git p
      */
     private static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited) {
         if (visited.contains(expr)) return null; // In the future we can give a warning here
