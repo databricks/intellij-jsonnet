@@ -28,17 +28,31 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
             if (element instanceof JsonnetSelect) {
                 List<JsonnetIdentifier0> selectList = new ArrayList<>();
                 for (JsonnetSelect select : ((JsonnetExpr)element.getParent()).getSelectList()) {
-                    selectList.add(select.getIdentifier0());
                     if (select == element) {
                         break;
                     }
+                    selectList.add(select.getIdentifier0());
                 }
-                JsonnetObj obj = resolveExprToObj(
+                JsonnetObj obj = JsonnetCompletionContributor.resolveExprToObj(
                         (JsonnetExpr)element.getParent(),
                         new ArrayList<>(),
                         selectList
                 );
                 if (obj != null){
+
+                    if (obj.getObjinside() != null && obj.getObjinside().getMembers() != null){
+                        String lastSelectText = ((JsonnetSelect) element).getIdentifier0().getText();
+                        JsonnetMembers members = obj.getObjinside().getMembers();
+                        for(JsonnetMember m: members.getMemberList()){
+                            if (m.getField() != null){
+                                if (m.getField().getFieldname().getIdentifier0().getText().equals(lastSelectText)){
+                                    results.add(new PsiElementResolveResult(m.getField().getFieldname().getIdentifier0()));
+                                    return results.toArray(new ResolveResult[results.size()]);
+                                }
+                            }
+                        }
+                    }
+
                     results.add(new PsiElementResolveResult(obj));
                     return results.toArray(new ResolveResult[results.size()]);
                 }
@@ -157,135 +171,4 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
         return false;
     }
 
-
-
-    static JsonnetObj resolveExprToObj(JsonnetExpr expr) {
-        return resolveExprToObj(expr, new ArrayList<>());
-    }
-
-    /**
-     * Resolves an expression of the form x.y.z.(dummy token) to an instance of JsonnetObj
-     * if possible, otherwise returns null.
-     * To avoid infinite loops, we keep track of the list of expressions visited along this
-     * call chain.git p
-     */
-    private static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited) {
-        if (visited.contains(expr)) return null; // In the future we can give a warning here
-        visited.add(expr);
-
-        try {
-
-            List<JsonnetIdentifier0> selectList = new ArrayList<>();
-            for (JsonnetSelect select : expr.getSelectList()) {
-                if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES.trim())) {
-                    selectList.add(select.getIdentifier0());
-                }else{
-                    break;
-                }
-            }
-            return resolveExprToObj(expr, visited, selectList);
-        }finally{
-            visited.remove(expr);
-        }
-    }
-    private static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
-        JsonnetExpr0 first = expr.getExpr0();
-        JsonnetObj curr = resolveExpr0ToObj(first, visited);
-        for (JsonnetIdentifier0 select : selectList) {
-            if (curr == null) return null;
-
-            JsonnetExpr fieldValue = getField(curr, select.getText());
-            if (fieldValue == null) return null;
-
-            curr = resolveExprToObj(fieldValue, visited);
-        }
-
-        return curr;
-    }
-
-    private static JsonnetObj resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
-        if (id.getReference() == null) return null;
-        PsiElement resolved = id.getReference().resolve();
-        if (resolved instanceof JsonnetBind) {
-            JsonnetExpr expr = ((JsonnetBind) resolved).getExpr();
-            return resolveExprToObj(expr, visited);
-        }
-        return null;
-    }
-
-    private static JsonnetExpr getField(JsonnetObj obj, String name) {
-        if (obj.getObjinside() == null || obj.getObjinside().getMembers() == null) return null;
-
-        List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
-        for (JsonnetMember member : memberList) {
-            if (member.getField() != null && member.getField().getFieldname().getIdentifier0() != null) {
-                String fieldName = member.getField().getFieldname().getIdentifier0().getText();
-                if (fieldName.equals(name)) {
-                    return member.getField().getExpr();
-                }
-            }
-        }
-        return null;
-    }
-
-    private static JsonnetObj resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
-        if (expr0.getExpr() != null){
-            return resolveExprToObj(expr0.getExpr(), visited);
-        }
-        if (expr0.getOuterlocal() != null){
-            return resolveExprToObj(expr0.getOuterlocal().getExpr(), visited);
-        }
-        if (expr0.getObj() != null){
-            return expr0.getObj();
-        }
-        if (expr0.getText().equals("self")) {
-            return findSelfObject(expr0);
-        }
-        if (expr0.getText().equals("$")) {
-            return findOuterObject(expr0);
-        }
-        if (expr0.getImportop() != null) {
-            JsonnetImportop importop = expr0.getImportop();
-            if (importop.getReference() == null) {
-                return null;
-            }
-            PsiFile file = (PsiFile) importop.getReference().resolve();
-            if (file == null) { // The imported file does not exist
-                return null;
-            }
-
-            for(PsiElement c: file.getChildren()){
-                // Apparently children can be line comments and other unwanted rubbish
-                if (c instanceof JsonnetExpr) {
-                    JsonnetObj res = resolveExprToObj((JsonnetExpr) c, visited);
-                    if (res != null) return res;
-                }
-            }
-        }
-        if (expr0.getIdentifier0() != null) {
-            return resolveIdentifierToObj(expr0.getIdentifier0(), visited);
-        }
-
-        return null;
-    }
-
-    private static JsonnetObj findSelfObject(PsiElement elem) {
-        PsiElement curr = elem;
-        while (curr != null && !(curr instanceof JsonnetObj)) {
-            curr = curr.getParent();
-        }
-        return (JsonnetObj) curr;
-    }
-
-    private static JsonnetObj findOuterObject(PsiElement elem) {
-        JsonnetObj obj = null;
-        PsiElement curr = elem;
-        while (curr != null) {
-            if (curr instanceof JsonnetObj) {
-                obj = (JsonnetObj) curr;
-            }
-            curr = curr.getParent();
-        }
-        return obj;
-    }
 }
