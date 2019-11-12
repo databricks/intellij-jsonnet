@@ -129,6 +129,8 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             for (JsonnetSelect select : expr.getSelectList()) {
                 if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES.trim())) {
                     selectList.add(select.getIdentifier0());
+                }else{
+                    break;
                 }
             }
 
