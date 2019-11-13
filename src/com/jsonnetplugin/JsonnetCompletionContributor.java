@@ -124,7 +124,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         visited.add(expr);
 
         try {
-            JsonnetExpr0 first = expr.getExpr0();
+
             List<JsonnetIdentifier0> selectList = new ArrayList<>();
             for (JsonnetSelect select : expr.getSelectList()) {
                 if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES.trim())) {
@@ -133,21 +133,24 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                     break;
                 }
             }
-
-            JsonnetObj curr = resolveExpr0ToObj(first, visited);
-            for (JsonnetIdentifier0 select : selectList) {
-                if (curr == null) return null;
-
-                JsonnetExpr fieldValue = getField(curr, select.getText());
-                if (fieldValue == null) return null;
-
-                curr = resolveExprToObj(fieldValue, visited);
-            }
-
-            return curr;
+            return resolveExprToObj(expr, visited, selectList);
         }finally{
             visited.remove(expr);
         }
+    }
+    static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
+        JsonnetExpr0 first = expr.getExpr0();
+        JsonnetObj curr = resolveExpr0ToObj(first, visited);
+        for (JsonnetIdentifier0 select : selectList) {
+            if (curr == null) return null;
+
+            JsonnetExpr fieldValue = getField(curr, select.getText());
+            if (fieldValue == null) return null;
+
+            curr = resolveExprToObj(fieldValue, visited);
+        }
+
+        return curr;
     }
 
     private static JsonnetObj resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
