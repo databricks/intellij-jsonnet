@@ -36,7 +36,7 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                     selectList.add(select.getIdentifier0());
                 }
 
-                JsonnetObjinside[] objs = JsonnetCompletionContributor.resolveExprToObj(
+                JsonnetObjinside[] objs = JsonnetCompletionContributor.resolveExprLhsToObj(
                         (JsonnetExpr)element.getParent(),
                         new ArrayList<>(),
                         selectList

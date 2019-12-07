@@ -147,27 +147,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     static JsonnetObjinside[] resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
-        JsonnetExpr0 first = expr.getExpr0();
-        JsonnetObjinside[] curr = resolveExpr0ToObj(first, visited);
-        for (JsonnetIdentifier0 select : selectList) {
-            if (curr == null) return null;
-
-            List<JsonnetExpr> fieldValues = Arrays.stream(curr)
-                    .map(c -> getField(c, select.getText()))
-                    .filter(c -> c != null)
-                    .collect(Collectors.toList());
-
-            if (fieldValues.isEmpty()) return null;
-
-            List<JsonnetObjinside> resolvedList = fieldValues.stream()
-                    .map(f -> resolveExprToObj(f, visited))
-                    .filter(c -> c != null)
-                    .flatMap(c -> Arrays.stream(c))
-                    .collect(Collectors.toList());
-
-            curr = new JsonnetObjinside[resolvedList.size()];
-            resolvedList.toArray(curr);
-        }
+        JsonnetObjinside[] curr = resolveExprLhsToObj(expr, visited, selectList);
 
         List<JsonnetObjinside> extended = new java.util.ArrayList<>();
 
@@ -194,6 +174,32 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             extended.toArray(res);
             return res;
         }
+    }
+
+
+    static JsonnetObjinside[] resolveExprLhsToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
+        JsonnetExpr0 first = expr.getExpr0();
+        JsonnetObjinside[] curr = resolveExpr0ToObj(first, visited);
+        for (JsonnetIdentifier0 select : selectList) {
+            if (curr == null) return null;
+
+            List<JsonnetExpr> fieldValues = Arrays.stream(curr)
+                    .map(c -> getField(c, select.getText()))
+                    .filter(c -> c != null)
+                    .collect(Collectors.toList());
+
+            if (fieldValues.isEmpty()) return null;
+
+            List<JsonnetObjinside> resolvedList = fieldValues.stream()
+                    .map(f -> resolveExprToObj(f, visited))
+                    .filter(c -> c != null)
+                    .flatMap(c -> Arrays.stream(c))
+                    .collect(Collectors.toList());
+
+            curr = new JsonnetObjinside[resolvedList.size()];
+            resolvedList.toArray(curr);
+        }
+        return curr;
     }
 
     private static JsonnetObjinside[] resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
