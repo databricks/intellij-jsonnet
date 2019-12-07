@@ -10,7 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
@@ -33,29 +35,42 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
                     }
                     selectList.add(select.getIdentifier0());
                 }
-                JsonnetObj obj = JsonnetCompletionContributor.resolveExprToObj(
+
+                JsonnetObjinside[] objs = JsonnetCompletionContributor.resolveExprToObj(
                         (JsonnetExpr)element.getParent(),
                         new ArrayList<>(),
                         selectList
                 );
-                if (obj != null){
 
-                    if (obj.getObjinside() != null && obj.getObjinside().getMembers() != null){
-                        String lastSelectText = ((JsonnetSelect) element).getIdentifier0().getText();
-                        JsonnetMembers members = obj.getObjinside().getMembers();
-                        for(JsonnetMember m: members.getMemberList()){
-                            if (m.getField() != null){
-                                JsonnetIdentifier0 ident = m.getField().getFieldname().getIdentifier0();
-                                if (ident != null && ident.getText().equals(lastSelectText)){
-                                    results.add(new PsiElementResolveResult(m.getField().getFieldname().getIdentifier0()));
-                                    return results.toArray(new ResolveResult[results.size()]);
+                if (objs != null){
+                    for(JsonnetObjinside obj: objs) {
+                        boolean added = false;
+                        if (obj != null && obj.getMembers() != null) {
+                            String lastSelectText = ((JsonnetSelect) element).getIdentifier0().getText();
+                            JsonnetMembers members = obj.getMembers();
+                            for (JsonnetMember m : members.getMemberList()) {
+                                if (m.getField() != null) {
+                                    JsonnetIdentifier0 ident = m.getField().getFieldname().getIdentifier0();
+                                    if (ident != null && ident.getText().equals(lastSelectText)) {
+                                        results.add(new PsiElementResolveResult(m.getField().getFieldname().getIdentifier0()));
+                                        added = true;
+                                    }
                                 }
                             }
                         }
+
+                        if (!added) results.add(new PsiElementResolveResult(obj));
                     }
 
-                    results.add(new PsiElementResolveResult(obj));
-                    return results.toArray(new ResolveResult[results.size()]);
+                    List<ResolveResult> identifiers = results
+                            .stream()
+                            .filter(r -> r.getElement() instanceof JsonnetIdentifier0)
+                            .collect(Collectors.toList());
+                    if (identifiers.size() == 0){
+                        return results.toArray(new ResolveResult[results.size()]);
+                    }else{
+                        return new ResolveResult[]{identifiers.get(identifiers.size() - 1)};
+                    }
                 }
 
             } else if (element instanceof JsonnetOuterlocal) {
@@ -150,7 +165,7 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
     @Override
     public PsiElement resolve() {
         ResolveResult[] resolveResults = multiResolve(false);
-        return resolveResults.length == 1 ? resolveResults[0].getElement() : null;
+        return resolveResults.length == 1 ? resolveResults[resolveResults.length-1].getElement() : null;
     }
 
     @NotNull
