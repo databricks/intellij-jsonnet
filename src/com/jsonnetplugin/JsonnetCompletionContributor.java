@@ -14,7 +14,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class JsonnetCompletionContributor extends CompletionContributor {
     public JsonnetCompletionContributor() {
@@ -28,10 +30,13 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
                         while (element != null) {
                             if (element instanceof JsonnetSelect) {
-                                JsonnetObj resolved = resolveExprToObj((JsonnetExpr) element.getParent());
+                                JsonnetObjinside[] resolved = resolveExprToObj((JsonnetExpr) element.getParent());
                                 if (resolved != null) {
-                                    addMembersFromObject(resolved, resultSet);
+                                    for(JsonnetObjinside r: resolved){
+                                        addMembersFromObject(r, resultSet);
+                                    }
                                 }
+
                                 // Do not show suggestions from outer space if the element
                                 // before the dot can be resolved. We are only interested in the fields.
                                 return;
@@ -46,7 +51,9 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                     resultSet.addElement(LookupElementBuilder.create(i.getText()));
                                 }
                             } else if (element instanceof JsonnetObjinside) {
-                                List<JsonnetObjlocal> locals = ((JsonnetObjinside) element).getObjlocalList();
+
+                                List<JsonnetObjlocal> locals = new ArrayList<>(((JsonnetObjinside) element).getObjlocalList());
+
                                 JsonnetMembers members = ((JsonnetObjinside) element).getMembers();
                                 if (members != null) {
                                     for (JsonnetMember m: members.getMemberList()){
@@ -97,10 +104,10 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         );
     }
 
-    private static void addMembersFromObject(JsonnetObj obj, CompletionResultSet resultSet) {
-        if (obj.getObjinside() == null || obj.getObjinside().getMembers() == null) return;
+    private static void addMembersFromObject(JsonnetObjinside obj, CompletionResultSet resultSet) {
+        if (obj == null || obj.getMembers() == null) return;
 
-        List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
+        List<JsonnetMember> memberList = obj.getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
             if (member.getField() != null && member.getField().getFieldname().getIdentifier0() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
@@ -109,7 +116,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         }
     }
 
-    private static JsonnetObj resolveExprToObj(JsonnetExpr expr) {
+    private static JsonnetObjinside[] resolveExprToObj(JsonnetExpr expr) {
         return resolveExprToObj(expr, new ArrayList<>());
     }
 
@@ -119,7 +126,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
      * To avoid infinite loops, we keep track of the list of expressions visited along this
      * call chain.git p
      */
-    private static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited) {
+    private static JsonnetObjinside[] resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited) {
         if (visited.contains(expr)) return null; // In the future we can give a warning here
         visited.add(expr);
 
@@ -138,22 +145,64 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             visited.remove(expr);
         }
     }
-    static JsonnetObj resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
+
+    static JsonnetObjinside[] resolveExprToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
+        JsonnetObjinside[] curr = resolveExprLhsToObj(expr, visited, selectList);
+
+        List<JsonnetObjinside> extended = new java.util.ArrayList<>();
+
+        if (curr != null) {
+            for(JsonnetObjinside i: curr) {
+                extended.add(i);
+            }
+        }
+        for (JsonnetObjextend x: expr.getObjextendList()){
+            extended.add(x.getObjinside());
+        }
+        for (JsonnetBinsuffix x: expr.getBinsuffixList()){
+            JsonnetObjinside[] rhs = resolveExprToObj(x.getExpr(), visited);
+            if (rhs != null){
+                for(JsonnetObjinside i: rhs) {
+                    extended.add(i);
+                }
+            }
+        }
+
+        if (extended.size() == 0) return null;
+        else{
+            JsonnetObjinside[] res = new JsonnetObjinside[extended.size()];
+            extended.toArray(res);
+            return res;
+        }
+    }
+
+
+    static JsonnetObjinside[] resolveExprLhsToObj(JsonnetExpr expr, List<JsonnetExpr> visited, List<JsonnetIdentifier0> selectList) {
         JsonnetExpr0 first = expr.getExpr0();
-        JsonnetObj curr = resolveExpr0ToObj(first, visited);
+        JsonnetObjinside[] curr = resolveExpr0ToObj(first, visited);
         for (JsonnetIdentifier0 select : selectList) {
             if (curr == null) return null;
 
-            JsonnetExpr fieldValue = getField(curr, select.getText());
-            if (fieldValue == null) return null;
+            List<JsonnetExpr> fieldValues = Arrays.stream(curr)
+                    .map(c -> getField(c, select.getText()))
+                    .filter(c -> c != null)
+                    .collect(Collectors.toList());
 
-            curr = resolveExprToObj(fieldValue, visited);
+            if (fieldValues.isEmpty()) return null;
+
+            List<JsonnetObjinside> resolvedList = fieldValues.stream()
+                    .map(f -> resolveExprToObj(f, visited))
+                    .filter(c -> c != null)
+                    .flatMap(c -> Arrays.stream(c))
+                    .collect(Collectors.toList());
+
+            curr = new JsonnetObjinside[resolvedList.size()];
+            resolvedList.toArray(curr);
         }
-
         return curr;
     }
 
-    private static JsonnetObj resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
+    private static JsonnetObjinside[] resolveIdentifierToObj(JsonnetIdentifier0 id, List<JsonnetExpr> visited) {
         if (id.getReference() == null) return null;
         PsiElement resolved = id.getReference().resolve();
         if (resolved instanceof JsonnetBind) {
@@ -163,10 +212,10 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         return null;
     }
 
-    private static JsonnetExpr getField(JsonnetObj obj, String name) {
-        if (obj.getObjinside() == null || obj.getObjinside().getMembers() == null) return null;
+    private static JsonnetExpr getField(JsonnetObjinside obj, String name) {
+        if (obj == null || obj.getMembers() == null) return null;
 
-        List<JsonnetMember> memberList = obj.getObjinside().getMembers().getMemberList();
+        List<JsonnetMember> memberList = obj.getMembers().getMemberList();
         for (JsonnetMember member : memberList) {
             if (member.getField() != null && member.getField().getFieldname().getIdentifier0() != null) {
                 String fieldName = member.getField().getFieldname().getIdentifier0().getText();
@@ -178,21 +227,21 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         return null;
     }
 
-    private static JsonnetObj resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
+    private static JsonnetObjinside[] resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
         if (expr0.getExpr() != null){
             return resolveExprToObj(expr0.getExpr(), visited);
         }
         if (expr0.getOuterlocal() != null){
             return resolveExprToObj(expr0.getOuterlocal().getExpr(), visited);
         }
-        if (expr0.getObj() != null){
-            return expr0.getObj();
+        if (expr0.getObj() != null && expr0.getObj().getObjinside() != null){
+            return new JsonnetObjinside[]{expr0.getObj().getObjinside()};
         }
         if (expr0.getText().equals("self")) {
-            return findSelfObject(expr0);
+            return new JsonnetObjinside[]{findSelfObject(expr0)};
         }
         if (expr0.getText().equals("$")) {
-            return findOuterObject(expr0);
+            return new JsonnetObjinside[]{findOuterObject(expr0)};
         }
         if (expr0.getImportop() != null) {
             JsonnetImportop importop = expr0.getImportop();
@@ -207,7 +256,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             for(PsiElement c: file.getChildren()){
                 // Apparently children can be line comments and other unwanted rubbish
                 if (c instanceof JsonnetExpr) {
-                    JsonnetObj res = resolveExprToObj((JsonnetExpr) c, visited);
+                    JsonnetObjinside[] res = resolveExprToObj((JsonnetExpr) c, visited);
                     if (res != null) return res;
                 }
             }
@@ -219,15 +268,15 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         return null;
     }
 
-    private static JsonnetObj findSelfObject(PsiElement elem) {
+    private static JsonnetObjinside findSelfObject(PsiElement elem) {
         PsiElement curr = elem;
         while (curr != null && !(curr instanceof JsonnetObj)) {
             curr = curr.getParent();
         }
-        return (JsonnetObj) curr;
+        return ((JsonnetObj) curr).getObjinside();
     }
 
-    private static JsonnetObj findOuterObject(PsiElement elem) {
+    private static JsonnetObjinside findOuterObject(PsiElement elem) {
         JsonnetObj obj = null;
         PsiElement curr = elem;
         while (curr != null) {
@@ -236,7 +285,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             }
             curr = curr.getParent();
         }
-        return obj;
+        return (obj).getObjinside();
     }
 
     private static boolean checkIfImport(PsiElement position) {
