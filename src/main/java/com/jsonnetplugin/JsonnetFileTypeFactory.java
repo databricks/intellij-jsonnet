@@ -6,6 +6,6 @@ import org.jetbrains.annotations.NotNull;
 public class JsonnetFileTypeFactory extends FileTypeFactory {
     @Override
     public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer) {
-        fileTypeConsumer.consume(JsonnetFileType.INSTANCE, "jsonnet;libsonnet");
+        fileTypeConsumer.consume(JsonnetFileType.INSTANCE, "jsonnet;libsonnet;jsonnet.TEMPLATE");
     }
 }
