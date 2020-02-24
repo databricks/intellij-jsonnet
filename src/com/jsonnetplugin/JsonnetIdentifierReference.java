@@ -44,33 +44,36 @@ public class JsonnetIdentifierReference extends PsiReferenceBase<PsiElement> imp
 
                 if (objs != null){
                     for(JsonnetObjinside obj: objs) {
-                        boolean added = false;
-                        if (obj != null && obj.getMembers() != null) {
-                            String lastSelectText = ((JsonnetSelect) element).getIdentifier0().getText();
-                            JsonnetMembers members = obj.getMembers();
-                            for (JsonnetMember m : members.getMemberList()) {
-                                if (m.getField() != null) {
-                                    JsonnetIdentifier0 ident = m.getField().getFieldname().getIdentifier0();
-                                    if (ident != null && ident.getText().equals(lastSelectText)) {
-                                        results.add(new PsiElementResolveResult(m.getField().getFieldname().getIdentifier0()));
-                                        added = true;
+
+                        if (obj != null){
+                            if (obj.getMembers() != null) {
+                                String lastSelectText = ((JsonnetSelect) element).getIdentifier0().getText();
+                                JsonnetMembers members = obj.getMembers();
+                                for (JsonnetMember m : members.getMemberList()) {
+                                    if (m.getField() != null) {
+                                        JsonnetIdentifier0 ident = m.getField().getFieldname().getIdentifier0();
+                                        if (ident != null && ident.getText().equals(lastSelectText)) {
+                                            results.add(new PsiElementResolveResult(m.getField().getFieldname().getIdentifier0()));
+                                        }
                                     }
                                 }
                             }
+
+                            if (obj.getCompspec() != null || obj.getForspec() != null) {
+                                results.add(new PsiElementResolveResult(obj));
+                            }
                         }
-
-                        if (!added) results.add(new PsiElementResolveResult(obj));
                     }
 
-                    List<ResolveResult> identifiers = results
-                            .stream()
-                            .filter(r -> r.getElement() instanceof JsonnetIdentifier0)
-                            .collect(Collectors.toList());
-                    if (identifiers.size() == 0){
-                        return results.toArray(new ResolveResult[results.size()]);
-                    }else{
-                        return new ResolveResult[]{identifiers.get(identifiers.size() - 1)};
+                    List<ResolveResult> output = new ArrayList<>();
+                    for(ResolveResult r: results){
+                        if (r.getElement() instanceof JsonnetIdentifier0){
+                            output.clear();
+                        }
+                        output.add(r);
                     }
+
+                    return output.toArray(new ResolveResult[output.size()]);
                 }
 
             } else if (element instanceof JsonnetOuterlocal) {
