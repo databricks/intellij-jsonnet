@@ -31,6 +31,7 @@
     <lang.foldingBuilder language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetFoldingBuilder"/>
     <psi.referenceContributor implementation="com.jsonnetplugin.JsonnetReferenceContributor"/>
     <annotator language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetAnnotator"/>
+    <lang.braceMatcher language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetBraceMatcher"/>
   </extensions>
 
   <actions>
