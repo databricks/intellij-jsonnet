@@ -51,7 +51,7 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 |	SUPER DOT IDENTIFIER0
 |	SUPER L_BRACKET expr R_BRACKET
 |   outerlocal
-|	IF expr THEN expr ( ELSE expr )?
+|	ifelse
 |	L_PAREN expr R_PAREN
 |	unaryop expr
 |	FUNCTION L_PAREN ( params )? R_PAREN expr
@@ -60,6 +60,7 @@ expr0 ::=	NULL | TRUE | FALSE | SELF | DOLLAR
 |	importstrop
 |	ERROR expr
 |	IDENTIFIER0
+ifelse ::= IF expr THEN expr ( ELSE expr )?
 obj ::= L_CURLY objinside? R_CURLY
 arr ::= L_BRACKET (expr (COMMA expr)* COMMA?)? R_BRACKET
 arrcomp ::= L_BRACKET expr COMMA? forspec compspec R_BRACKET

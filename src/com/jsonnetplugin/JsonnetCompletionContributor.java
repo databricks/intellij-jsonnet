@@ -228,6 +228,24 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     private static JsonnetObjinside[] resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
+        if (expr0.getIfelse() != null){
+            JsonnetIfelse ifelse = expr0.getIfelse();
+
+            ArrayList<JsonnetObjinside> output = new ArrayList<>();
+            JsonnetObjinside[] lhsRes = resolveExprToObj(ifelse.getExprList().get(1), visited);
+            if (lhsRes != null){
+                for(JsonnetObjinside j: lhsRes) output.add(j);
+            }
+            if (ifelse.getExprList().size() == 3){
+                JsonnetObjinside[] rhsRes = resolveExprToObj(ifelse.getExprList().get(2), visited);
+                if (rhsRes != null){
+                    for(JsonnetObjinside j: rhsRes) output.add(j);
+                }
+
+            }
+
+            return output.toArray(new JsonnetObjinside[output.size()]);
+        }
         if (expr0.getExpr() != null){
             return resolveExprToObj(expr0.getExpr(), visited);
         }
