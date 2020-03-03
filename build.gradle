@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.grammarkit' version '2019.1'
+    id 'org.jetbrains.intellij' version '0.4.16'
+}
+
+group 'com.databricks'
+version '1.1'
+sourceCompatibility = 1.8
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    version '2019.1'
+}
+//patchPluginXml {
+//    changeNotes '
+//      Add change notes here.<br>
+//      <em>most HTML tags may be used</em>'
+//}
+
+sourceSets {
+    main {
+        java.srcDirs += 'src/main/gen'
+    }
+}
+
+apply plugin: 'org.jetbrains.grammarkit'
+
+import org.jetbrains.grammarkit.tasks.GenerateLexer
+import org.jetbrains.grammarkit.tasks.GenerateParser
+
+task generateJsonnetLexer(type: GenerateLexer) {
+    source 'src/main/resources/com/jsonnetplugin/Jsonnet.flex'
+    targetDir 'src/main/gen/com/jsonnetplugin'
+    targetClass 'JsonnetLexer'
+    purgeOldFiles true
+}
+
+task generateJsonnetParser(type: GenerateParser) {
+    source 'src/main/resources/com/jsonnetplugin/Jsonnet.bnf'
+    targetRoot 'src/main/gen'
+    pathToParser 'com/jsonnetplugin/parser/JsonnetParser.java'
+    pathToPsiRoot 'com/jsonnetplugin/psi'
+    purgeOldFiles true
+}
+
+compileJava {
+    dependsOn generateJsonnetLexer
+    dependsOn generateJsonnetParser
+}
