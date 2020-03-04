@@ -17,7 +17,6 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-EOL=\R
 WHITE_SPACE=\s+
 
 LINE_COMMENT="//"[^\n]*|"#"[^\n]*

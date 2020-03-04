@@ -1,41 +1,31 @@
 <idea-plugin>
-  <id>com.databricks</id>
-  <name>Jsonnet</name>
-  <version>1.1</version>
-  <vendor email="haoyi.li@databricks.com,andrewchen@databricks.com,haolan.ye@databricks.com,sid.murching@databricks.com"
-          url="https://databricks.com/"
-  >
-    Databricks
-  </vendor>
+    <id>com.databricks</id>
+    <name>Jsonnet</name>
+    <vendor email="haoyi.li@databricks.com,andrewchen@databricks.com,haolan.ye@databricks.com,sid.murching@databricks.com"
+            url="https://databricks.com/"
+    >
+        Databricks
+    </vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       A plugin to support the Jsonnet JSON templating language (https://jsonnet.org/)
     ]]></description>
 
-  <change-notes><![CDATA[
+    <depends>com.intellij.modules.lang</depends>
 
-    ]]>
-  </change-notes>
-
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="172.0"/>
-
-  <depends>com.intellij.modules.lang</depends>
-
-  <extensions defaultExtensionNs="com.intellij">
-    <lang.parserDefinition language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetParserDefinition"/>
-    <lang.syntaxHighlighterFactory language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetSyntaxHighlighterFactory"/>
-    <fileTypeFactory implementation="com.jsonnetplugin.JsonnetFileTypeFactory"/>
-    <lang.commenter language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCommenter"/>
-    <completion.contributor language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCompletionContributor"/>
-    <lang.foldingBuilder language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetFoldingBuilder"/>
-    <psi.referenceContributor implementation="com.jsonnetplugin.JsonnetReferenceContributor"/>
-    <annotator language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetAnnotator"/>
-    <lang.braceMatcher language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetBraceMatcher"/>
-  </extensions>
-
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+    <extensions defaultExtensionNs="com.intellij">
+        <lang.parserDefinition language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Jsonnet"
+                                       implementationClass="com.jsonnetplugin.JsonnetSyntaxHighlighterFactory"/>
+        <fileType name="Jsonnet file" implementationClass="com.jsonnetplugin.JsonnetFileType"
+                  fieldName="INSTANCE" language="Jsonnet" extensions="jsonnet;libsonnet" patterns="*.jsonnet.TEMPLATE"/>
+        <lang.commenter language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetCommenter"/>
+        <completion.contributor language="Jsonnet"
+                                implementationClass="com.jsonnetplugin.JsonnetCompletionContributor"/>
+        <lang.foldingBuilder language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetFoldingBuilder"/>
+        <psi.referenceContributor implementation="com.jsonnetplugin.JsonnetReferenceContributor"/>
+        <annotator language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetAnnotator"/>
+        <lang.braceMatcher language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetBraceMatcher"/>
+    </extensions>
 
 </idea-plugin>

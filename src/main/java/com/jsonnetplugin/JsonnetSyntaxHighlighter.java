@@ -1,7 +1,8 @@
 package com.jsonnetplugin;
 
 import com.intellij.lexer.Lexer;
-import com.intellij.openapi.editor.*;
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
+import com.intellij.openapi.editor.HighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
@@ -47,33 +48,33 @@ public class JsonnetSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType.equals(JsonnetTypes.LINE_COMMENT)) {
             return COMMENT_KEYS;
         } else if (
-            tokenType.equals(JsonnetTypes.TRUE) ||
-            tokenType.equals(JsonnetTypes.FALSE) ||
-            tokenType.equals(JsonnetTypes.NULL) ||
-            tokenType.equals(JsonnetTypes.IMPORT) ||
-            tokenType.equals(JsonnetTypes.IMPORTSTR) ||
-            tokenType.equals(JsonnetTypes.LOCAL) ||
-            tokenType.equals(JsonnetTypes.FUNCTION) ||
-            tokenType.equals(JsonnetTypes.IN) ||
-            tokenType.equals(JsonnetTypes.IF) ||
-            tokenType.equals(JsonnetTypes.THEN) ||
-            tokenType.equals(JsonnetTypes.ELSE) ||
-            tokenType.equals(JsonnetTypes.SUPER) ||
-            tokenType.equals(JsonnetTypes.ERROR) ||
-            tokenType.equals(JsonnetTypes.SELF) ||
-            tokenType.equals(JsonnetTypes.FOR) ||
-            tokenType.equals(JsonnetTypes.ASSERT) ||
-            tokenType.equals(JsonnetTypes.DOLLAR)
+                tokenType.equals(JsonnetTypes.TRUE) ||
+                        tokenType.equals(JsonnetTypes.FALSE) ||
+                        tokenType.equals(JsonnetTypes.NULL) ||
+                        tokenType.equals(JsonnetTypes.IMPORT) ||
+                        tokenType.equals(JsonnetTypes.IMPORTSTR) ||
+                        tokenType.equals(JsonnetTypes.LOCAL) ||
+                        tokenType.equals(JsonnetTypes.FUNCTION) ||
+                        tokenType.equals(JsonnetTypes.IN) ||
+                        tokenType.equals(JsonnetTypes.IF) ||
+                        tokenType.equals(JsonnetTypes.THEN) ||
+                        tokenType.equals(JsonnetTypes.ELSE) ||
+                        tokenType.equals(JsonnetTypes.SUPER) ||
+                        tokenType.equals(JsonnetTypes.ERROR) ||
+                        tokenType.equals(JsonnetTypes.SELF) ||
+                        tokenType.equals(JsonnetTypes.FOR) ||
+                        tokenType.equals(JsonnetTypes.ASSERT) ||
+                        tokenType.equals(JsonnetTypes.DOLLAR)
         ) {
             return KEYWORD_KEYS;
         } else if (tokenType.equals(JsonnetTypes.NUMBER)) {
             return NUMBER_KEYS;
         } else if (
                 tokenType.equals(JsonnetTypes.SINGLE_QUOTED_STRING) ||
-                tokenType.equals(JsonnetTypes.DOUBLE_QUOTED_STRING) ||
-                tokenType.equals(JsonnetTypes.VERBATIM_DOUBLE_QUOTED_STRING) ||
-                tokenType.equals(JsonnetTypes.VERBATIM_SINGLE_QUOTED_STRING) ||
-                tokenType.equals(JsonnetTypes.TRIPLE_BAR_QUOTED_STRING)) {
+                        tokenType.equals(JsonnetTypes.DOUBLE_QUOTED_STRING) ||
+                        tokenType.equals(JsonnetTypes.VERBATIM_DOUBLE_QUOTED_STRING) ||
+                        tokenType.equals(JsonnetTypes.VERBATIM_SINGLE_QUOTED_STRING) ||
+                        tokenType.equals(JsonnetTypes.TRIPLE_BAR_QUOTED_STRING)) {
             return STRING_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;

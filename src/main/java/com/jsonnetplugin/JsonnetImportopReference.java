@@ -1,13 +1,11 @@
 package com.jsonnetplugin;
 
-import com.intellij.codeInsight.lookup.*;
-import com.intellij.openapi.project.Project;
+import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
-import org.jetbrains.annotations.*;
-
-import java.util.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
 
@@ -33,11 +31,11 @@ public class JsonnetImportopReference extends PsiReferenceBase<PsiElement> imple
                 .getParent()
                 .findFileByRelativePath(importText);
 
-        if (vf != null){
+        if (vf != null) {
             PsiFile myPsiFile = PsiManager.getInstance(myElement.getProject()).findFile(vf);
             if (myPsiFile != null) return new ResolveResult[]{new PsiElementResolveResult(myPsiFile)};
             else return new ResolveResult[]{};
-        }else{
+        } else {
             return new ResolveResult[]{};
 
         }

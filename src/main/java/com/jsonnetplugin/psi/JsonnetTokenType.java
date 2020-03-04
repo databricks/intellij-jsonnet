@@ -2,7 +2,8 @@ package com.jsonnetplugin.psi;
 
 import com.intellij.psi.tree.IElementType;
 import com.jsonnetplugin.JsonnetLanguage;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 public class JsonnetTokenType extends IElementType {
     public JsonnetTokenType(@NotNull @NonNls String debugName) {

@@ -3,10 +3,9 @@ package com.jsonnetplugin.psi;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
-import com.jsonnetplugin.*;
+import com.jsonnetplugin.JsonnetFileType;
+import com.jsonnetplugin.JsonnetLanguage;
 import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 
 public class JsonnetFile extends PsiFileBase {
     public JsonnetFile(@NotNull FileViewProvider viewProvider) {
@@ -21,11 +20,6 @@ public class JsonnetFile extends PsiFileBase {
 
     @Override
     public String toString() {
-        return "Jsonnet File";
-    }
-
-    @Override
-    public Icon getIcon(int flags) {
-        return super.getIcon(flags);
+        return "Jsonnet file";
     }
 }
