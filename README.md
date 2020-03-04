@@ -1,6 +1,6 @@
 IntelliJ Jsonnet
 -----------------
-This plugin teaches IntelliJ how to understand the .jsonnet and .jsonnet.TEMPLATE files. It includes the following features.
+This plugin teaches IntelliJ how to understand `.jsonnet`, `.jsonnet.TEMPLATE`, and `.libsonnet` files. It includes the following features:
 
 - Syntax Highlighting
 - Autocomplete for imported files, local variables
