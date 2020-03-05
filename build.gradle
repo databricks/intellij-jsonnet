@@ -12,7 +12,7 @@ intellij {
     version "${ideaVersion}"
 }
 patchPluginXml {
-    sinceBuild '192'
+    sinceBuild '191'
     untilBuild ''
 //    changeNotes '
 //      Add change notes here.<br>
