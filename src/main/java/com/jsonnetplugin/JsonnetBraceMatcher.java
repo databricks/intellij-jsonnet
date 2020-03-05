@@ -16,6 +16,7 @@ public class JsonnetBraceMatcher implements PairedBraceMatcher {
             new BracePair(JsonnetTypes.L_CURLY, JsonnetTypes.R_CURLY, true),
     };
 
+    @NotNull
     public BracePair[] getPairs() {
         return PAIRS;
     }

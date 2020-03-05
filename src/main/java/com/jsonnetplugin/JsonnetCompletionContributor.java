@@ -1,11 +1,10 @@
 package com.jsonnetplugin;
 
-import static com.jsonnetplugin.JsonnetIdentifierReference.*;
-
 import com.intellij.codeInsight.completion.*;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.intellij.util.ProcessingContext;
 import com.jsonnetplugin.psi.*;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +15,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.jsonnetplugin.JsonnetIdentifierReference.findIdentifierFromParams;
+import static com.jsonnetplugin.JsonnetIdentifierReference.isFunctionExpr;
 
 public class JsonnetCompletionContributor extends CompletionContributor {
     public JsonnetCompletionContributor() {
@@ -32,7 +35,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                             if (element instanceof JsonnetSelect) {
                                 JsonnetObjinside[] resolved = resolveExprToObj((JsonnetExpr) element.getParent());
                                 if (resolved != null) {
-                                    for(JsonnetObjinside r: resolved){
+                                    for (JsonnetObjinside r : resolved) {
                                         addMembersFromObject(r, resultSet);
                                     }
                                 }
@@ -42,12 +45,12 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                                 return;
                             } else if (element instanceof JsonnetOuterlocal) {
                                 List<JsonnetBind> binds = JsonnetIdentifierReference.findBindInOuterLocal((JsonnetOuterlocal) element);
-                                for (JsonnetBind b: binds) {
+                                for (JsonnetBind b : binds) {
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
                                 }
                             } else if (element instanceof JsonnetExpr0 && isFunctionExpr((JsonnetExpr0) element)) {
                                 List<JsonnetIdentifier0> identifiers = JsonnetIdentifierReference.findIdentifierFromFunctionExpr0((JsonnetExpr0) element);
-                                for (JsonnetIdentifier0 i: identifiers) {
+                                for (JsonnetIdentifier0 i : identifiers) {
                                     resultSet.addElement(LookupElementBuilder.create(i.getText()));
                                 }
                             } else if (element instanceof JsonnetObjinside) {
@@ -56,26 +59,26 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
                                 JsonnetMembers members = ((JsonnetObjinside) element).getMembers();
                                 if (members != null) {
-                                    for (JsonnetMember m: members.getMemberList()){
-                                        if (m.getObjlocal() != null){
+                                    for (JsonnetMember m : members.getMemberList()) {
+                                        if (m.getObjlocal() != null) {
                                             locals.add(m.getObjlocal());
                                         }
                                     }
                                 }
-                                for (JsonnetObjlocal local: locals) {
+                                for (JsonnetObjlocal local : locals) {
                                     JsonnetBind b = local.getBind();
                                     resultSet.addElement(LookupElementBuilder.create(b.getIdentifier0().getText()));
                                 }
                             } else if (element.getParent() instanceof JsonnetBind &&
-                                    ((JsonnetBind)element.getParent()).getExpr() == element){
-                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind)element.getParent()).getParams());
-                                for(JsonnetIdentifier0 ident: idents){
+                                    ((JsonnetBind) element.getParent()).getExpr() == element) {
+                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetBind) element.getParent()).getParams());
+                                for (JsonnetIdentifier0 ident : idents) {
                                     resultSet.addElement(LookupElementBuilder.create(ident.getText()));
                                 }
                             } else if (element.getParent() instanceof JsonnetField &&
-                                    ((JsonnetField)element.getParent()).getExpr() == element){
-                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField)element.getParent()).getParams());
-                                for(JsonnetIdentifier0 ident: idents){
+                                    ((JsonnetField) element.getParent()).getExpr() == element) {
+                                List<JsonnetIdentifier0> idents = findIdentifierFromParams(((JsonnetField) element.getParent()).getParams());
+                                for (JsonnetIdentifier0 ident : idents) {
                                     resultSet.addElement(LookupElementBuilder.create(ident.getText()));
                                 }
                             }
@@ -136,12 +139,12 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             for (JsonnetSelect select : expr.getSelectList()) {
                 if (!select.getIdentifier0().getText().endsWith(Constants.INTELLIJ_RULES.trim())) {
                     selectList.add(select.getIdentifier0());
-                }else{
+                } else {
                     break;
                 }
             }
             return resolveExprToObj(expr, visited, selectList);
-        }finally{
+        } finally {
             visited.remove(expr);
         }
     }
@@ -152,24 +155,20 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         List<JsonnetObjinside> extended = new java.util.ArrayList<>();
 
         if (curr != null) {
-            for(JsonnetObjinside i: curr) {
-                extended.add(i);
-            }
+            extended.addAll(Arrays.asList(curr));
         }
-        for (JsonnetObjextend x: expr.getObjextendList()){
+        for (JsonnetObjextend x : expr.getObjextendList()) {
             extended.add(x.getObjinside());
         }
-        for (JsonnetBinsuffix x: expr.getBinsuffixList()){
+        for (JsonnetBinsuffix x : expr.getBinsuffixList()) {
             JsonnetObjinside[] rhs = resolveExprToObj(x.getExpr(), visited);
-            if (rhs != null){
-                for(JsonnetObjinside i: rhs) {
-                    extended.add(i);
-                }
+            if (rhs != null) {
+                extended.addAll(Arrays.asList(rhs));
             }
         }
 
         if (extended.size() == 0) return null;
-        else{
+        else {
             JsonnetObjinside[] res = new JsonnetObjinside[extended.size()];
             extended.toArray(res);
             return res;
@@ -185,15 +184,15 @@ public class JsonnetCompletionContributor extends CompletionContributor {
 
             List<JsonnetExpr> fieldValues = Arrays.stream(curr)
                     .map(c -> getField(c, select.getText()))
-                    .filter(c -> c != null)
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
 
             if (fieldValues.isEmpty()) return null;
 
             List<JsonnetObjinside> resolvedList = fieldValues.stream()
                     .map(f -> resolveExprToObj(f, visited))
-                    .filter(c -> c != null)
-                    .flatMap(c -> Arrays.stream(c))
+                    .filter(Objects::nonNull)
+                    .flatMap(Arrays::stream)
                     .collect(Collectors.toList());
 
             curr = new JsonnetObjinside[resolvedList.size()];
@@ -228,31 +227,31 @@ public class JsonnetCompletionContributor extends CompletionContributor {
     }
 
     private static JsonnetObjinside[] resolveExpr0ToObj(JsonnetExpr0 expr0, List<JsonnetExpr> visited) {
-        if (expr0.getIfelse() != null){
+        if (expr0.getIfelse() != null) {
             JsonnetIfelse ifelse = expr0.getIfelse();
 
             ArrayList<JsonnetObjinside> output = new ArrayList<>();
             JsonnetObjinside[] lhsRes = resolveExprToObj(ifelse.getExprList().get(1), visited);
-            if (lhsRes != null){
-                for(JsonnetObjinside j: lhsRes) output.add(j);
+            if (lhsRes != null) {
+                output.addAll(Arrays.asList(lhsRes));
             }
-            if (ifelse.getExprList().size() == 3){
+            if (ifelse.getExprList().size() == 3) {
                 JsonnetObjinside[] rhsRes = resolveExprToObj(ifelse.getExprList().get(2), visited);
-                if (rhsRes != null){
-                    for(JsonnetObjinside j: rhsRes) output.add(j);
+                if (rhsRes != null) {
+                    output.addAll(Arrays.asList(rhsRes));
                 }
 
             }
 
-            return output.toArray(new JsonnetObjinside[output.size()]);
+            return output.toArray(new JsonnetObjinside[0]);
         }
-        if (expr0.getExpr() != null){
+        if (expr0.getExpr() != null) {
             return resolveExprToObj(expr0.getExpr(), visited);
         }
-        if (expr0.getOuterlocal() != null){
+        if (expr0.getOuterlocal() != null) {
             return resolveExprToObj(expr0.getOuterlocal().getExpr(), visited);
         }
-        if (expr0.getObj() != null && expr0.getObj().getObjinside() != null){
+        if (expr0.getObj() != null && expr0.getObj().getObjinside() != null) {
             return new JsonnetObjinside[]{expr0.getObj().getObjinside()};
         }
         if (expr0.getText().equals("self")) {
@@ -271,7 +270,7 @@ public class JsonnetCompletionContributor extends CompletionContributor {
                 return null;
             }
 
-            for(PsiElement c: file.getChildren()){
+            for (PsiElement c : file.getChildren()) {
                 // Apparently children can be line comments and other unwanted rubbish
                 if (c instanceof JsonnetExpr) {
                     JsonnetObjinside[] res = resolveExprToObj((JsonnetExpr) c, visited);
@@ -303,19 +302,19 @@ public class JsonnetCompletionContributor extends CompletionContributor {
             }
             curr = curr.getParent();
         }
-        return (obj).getObjinside();
+        return obj.getObjinside();
     }
 
     private static boolean checkIfImport(PsiElement position) {
         return position.getPrevSibling() != null &&
-          position.getPrevSibling().getPrevSibling().getNode().getElementType().equals(JsonnetTypes.IMPORT);
+                position.getPrevSibling().getPrevSibling().getNode().getElementType().equals(JsonnetTypes.IMPORT);
     }
 
     private static void addFileCompletions(PsiFile file, String current, CompletionResultSet set) {
         // current always begins with a "
         String cleanedCurrent = current.substring(1);
         if (cleanedCurrent.endsWith("\"")) {
-           cleanedCurrent = cleanedCurrent.substring(0, cleanedCurrent.length() - 1);
+            cleanedCurrent = cleanedCurrent.substring(0, cleanedCurrent.length() - 1);
         }
 
         if (!cleanedCurrent.endsWith(Constants.INTELLIJ_RULES)) {
@@ -331,19 +330,19 @@ public class JsonnetCompletionContributor extends CompletionContributor {
         if (stripped.endsWith("/")) {
             prefixFile = currentPath.resolve(Paths.get(stripped)).toFile();
             input = "";
-        } else if (strippedPathCount == 1){
+        } else if (strippedPathCount == 1) {
             prefixFile = currentPath.toFile();
             input = stripped;
         } else {
             prefixFile = currentPath.resolve(strippedPath.subpath(0, strippedPathCount - 1)).toFile();
-            input = strippedPath.subpath(strippedPathCount-1, strippedPathCount).toString();
+            input = strippedPath.subpath(strippedPathCount - 1, strippedPathCount).toString();
         }
 
         CompletionResultSet replaceSet = set.withPrefixMatcher(stripped);
         if (prefixFile.isDirectory()) {
             File[] files = prefixFile.listFiles((dir, name) -> name.startsWith(input));
             if (files != null) {
-                for (File f: files) {
+                for (File f : files) {
                     String result = stripped + f.getName().substring(input.length());
                     replaceSet.addElement(LookupElementBuilder.create(result));
                 }
