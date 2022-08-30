@@ -25,6 +25,7 @@
         <psi.referenceContributor implementation="com.jsonnetplugin.JsonnetReferenceContributor"/>
         <annotator language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetAnnotator"/>
         <lang.braceMatcher language="Jsonnet" implementationClass="com.jsonnetplugin.JsonnetBraceMatcher"/>
+        <spellchecker.support language="Jsonnet" implementationClass="com.jsonnetplugin.spellchecker.JsonnetSpellcheckingStrategy"/>
     </extensions>
 
 </idea-plugin>
