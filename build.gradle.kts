@@ -7,7 +7,11 @@ plugins {
 }
 
 group = "com.databricks"
-version = "2.0"
+version = "2.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
 
 intellij {
     version.set("2022.3")
@@ -33,14 +37,14 @@ tasks {
     }
 
     generateLexer {
-        sourceFile.set(file("src/main/grammars/Jsonnet.flex"))
+        source.set("src/main/grammars/Jsonnet.flex")
         targetDir.set("src/main/gen/com/jsonnetplugin")
         targetClass.set("JsonnetLexer")
         purgeOldFiles.set(true)
     }
 
     generateParser {
-        sourceFile.set(file("src/main/grammars/Jsonnet.bnf"))
+        source.set("src/main/grammars/Jsonnet.bnf")
         targetRoot.set("src/main/gen")
         pathToParser.set("com/jsonnetplugin/parser/JsonnetParser.java")
         pathToPsiRoot.set("com/jsonnetplugin/psi")
