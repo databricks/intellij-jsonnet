@@ -52,6 +52,7 @@ tasks {
     }
 
     compileJava {
+        options.compilerArgs.add("-Xlint")
         dependsOn(generateLexer, generateParser)
     }
 }
