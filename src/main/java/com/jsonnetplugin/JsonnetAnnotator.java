@@ -2,6 +2,7 @@ package com.jsonnetplugin;
 
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
+import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.psi.PsiElement;
@@ -17,11 +18,11 @@ public class JsonnetAnnotator implements Annotator {
 
     @Override
     public void annotate(@NotNull PsiElement psiElement, @NotNull AnnotationHolder annotationHolder) {
-        if (psiElement instanceof JsonnetIdentifier0 && psiElement.getParent() instanceof JsonnetFieldname) {
-            annotationHolder.createInfoAnnotation(psiElement, "").setTextAttributes(MEMBER);
-        }
-        if (psiElement instanceof JsonnetIdentifier0 && psiElement.getParent() instanceof JsonnetSelect) {
-            annotationHolder.createInfoAnnotation(psiElement, "").setTextAttributes(MEMBER);
+        if (psiElement instanceof JsonnetIdentifier0) {
+            PsiElement parent = psiElement.getParent();
+            if (parent instanceof JsonnetFieldname || parent instanceof JsonnetSelect) {
+                annotationHolder.newSilentAnnotation(HighlightSeverity.INFORMATION).textAttributes(MEMBER).create();
+            }
         }
     }
 }
